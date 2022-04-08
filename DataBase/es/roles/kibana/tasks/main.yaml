@@ -1,0 +1,19 @@
+#安装kibana
+- name: "创建kibana安装位置"
+  shell: mkdir -p /usr/local/kinaba/
+- name: "下载kibana安装包"
+  shell: wget -P /usr/local/kibana/ https://artifacts.elastic.co/downloads/kibana/kibana-7.6.2-linux-x86_64.tar.gz
+- name: "解压kibana安装包"
+  shell: tar -zxvf /usr/local/kibana/kibana-7.6.2-linux-x86_64.tar.gz -C /usr/local/kibana/
+- name: "重命名kibana"
+  shell: mv /usr/local/kibana/kibana-7.6.2-linux-x86_64 /usr/local/kibana/kibana
+- name: "设置es用户权限"
+  shell: chown -R es:es /usr/local/kibana/kibana
+- name: "修改kibana配置文件"
+  copy:
+    src: "/etc/ansible/awsomeansible/DataBase/es/roles/kibana/files/kibana.yml"
+    dest: "/usr/local/kibana/kibana/config/kibana.yml"
+    owner: root
+    mode: 777
+- name: "设置es用户权限"
+  shell: chown -R es:es /usr/local/kibana/kibana/config/kibana.yml

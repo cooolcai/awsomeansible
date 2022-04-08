@@ -1,0 +1,5 @@
+{%- for server_id,node_ip in zk_cluster -%}
+    {%- if node_ip == zk_hostip -%}
+{{ server_id }}
+	{%- endif -%}
+{%- endfor -%}

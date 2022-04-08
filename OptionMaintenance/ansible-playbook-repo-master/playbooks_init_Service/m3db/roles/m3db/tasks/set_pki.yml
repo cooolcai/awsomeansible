@@ -1,0 +1,19 @@
+---
+- name: init pki conf
+  template:
+    src: m3db.service.pki.j2
+    dest: "{{ m3db_service_dir }}/m3db.service"
+    mode: '0644'
+  tags: turn_on_pki
+  when:  m3db_version[0:3] == "3.4"
+
+- name: upload pki
+  synchronize:
+    src: files/pki/
+    dest: "{{ m3db_pki_dir }}/"
+  tags: turn_on_pki
+
+- name: set m3db service
+  shell: |
+    systemctl daemon-reload && systemctl enable m3db
+  tags: turn_on_pki

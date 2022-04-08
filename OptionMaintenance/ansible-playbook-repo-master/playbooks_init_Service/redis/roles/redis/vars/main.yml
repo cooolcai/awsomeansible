@@ -1,0 +1,23 @@
+#### redis ####
+# redis 源文件目录
+redis_src_dir: "{{ src_dir }}/redis-{{ redis_version }}"
+# redis 安装变量
+redis_install_dir: '/usr/local/redis-{{ redis_version }}'
+redis_data_dir: "{{ redis_install_dir}}/data/{{ redis_port }}"
+redis_conf_dir: "{{ redis_install_dir}}/conf"
+redis_bin_dir: "{{ redis_install_dir}}/bin"
+redis_logs_dir: "{{ redis_install_dir}}/logs"
+
+redis_bind: 0.0.0.0
+redis_port: 6379
+redis_password: 'noteshare.cn'
+redis_maxmemory: 2294967296
+
+
+# redis replication
+sentinel_port: 26379
+master_host: 
+master_port: 6379
+master_password: 'noteshare.cn'
+cluster_name: cluster-1
+

@@ -1,0 +1,33 @@
+---
+- name: add exporter user
+  user:
+    name: prometheus
+    state: present
+
+- name: init src directiory
+  file:
+    path: "{{ node_exporter_src_dir }}"
+    state: directory
+
+- name: upload node exporter src
+  copy:
+    src: "node_exporter-{{ node_exporter_version}}.linux-amd64.tar.gz"
+    dest: "{{ node_exporter_src_dir }}/node_exporter-{{ node_exporter_version}}.linux-amd64.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install exporter
+  shell: |
+    cd "{{ node_exporter_src_dir }}"
+    tar xf "node_exporter-{{ node_exporter_version}}.linux-amd64.tar.gz"
+    mv "node_exporter-{{ node_exporter_version}}.linux-amd64" "{{ node_exporter_install_dir }}"
+    chown prometheus.prometheus "{{ node_exporter_install_dir }}"
+
+- name: set node_exporter service
+  template:
+    src: node_exporter.service.j2
+    dest: "{{ node_exporter_service_dir }}/node_exporter.service"
+    mode: '0644'
+  tags: set_node_exporter_service
+
+

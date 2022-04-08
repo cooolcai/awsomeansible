@@ -1,0 +1,5 @@
+---
+- hosts: jdk_host
+  roles:
+    - role: jdk
+

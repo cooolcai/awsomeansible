@@ -1,0 +1,32 @@
+
+- name: init directiory
+  file:
+    path: "{{ kafka_dir }}"
+    state: directory
+  loop:
+    - "{{ kafka_src_dir }}"
+  loop_control:
+    loop_var: kafka_dir
+
+- name: upload kafka src
+  copy:
+    src: "kafka_{{ kafka_version}}.tgz"
+    dest: "{{ kafka_src_dir }}/kafka_{{ kafka_version}}.tgz"
+    mode: "0755"
+    remote_src: no
+
+- name: install kafka
+  shell: |
+    cd "{{ kafka_src_dir }}"
+    tar xf kafka_"{{ scala_version }}-{{ kafka_version}}.tgz"
+    mv kafka_"{{ scala_version }}-{{ kafka_version}}" /usr/local/
+
+- name: init other directiory
+  file:
+    path: "{{ kafka_other_dir }}"
+    state: directory
+  loop:
+    - "{{ kafka_data_dir }}"
+    - "{{ kafka_logs_dir }}"
+  loop_control:
+    loop_var: kafka_other_dir

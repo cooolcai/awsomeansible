@@ -1,0 +1,33 @@
+---
+- name: Judge optimized
+  shell: if grep -q system_init {{ conf.dir }}{{ conf.name }};then echo {{ conf.tag }}_yes;else echo {{ conf.tag }}_no;fi
+  register: optimize_tag
+  loop:
+    - { dir: "/etc/yum.repos.d/", name: "CentOS-Base.repo", tag: "yum_centos" }
+    - { dir: "/etc/yum.repos.d/", name: "epel.repo", tag: "yum_epel" }
+    - { dir: "/etc/", name: "locale.conf", tag: "locale" }
+    - { dir: "/etc/security/limits.d/", name: "20-nproc.conf", tag: "nproc" }
+    - { dir: "/etc/", name: "limits.conf", tag: "limits" }
+    - { dir: "/etc/ssh/", name: "sshd_config", tag: "sshd" }
+    - { dir: "/etc/", name: "sysctl.conf", tag: "sysctl" }
+    - { dir: "/etc/profile.d/", name: "ps.sh", tag: "ps" }
+    - { dir: "/root/", name: ".vimrc", tag: "vimrc" }
+    - { dir: "/etc/fail2ban/", name: "jail.conf", tag: "fail2ban" }
+    - { dir: "/var/spool/cron/", name: "root", tag: "ntp" }
+    - { dir: "/etc/rc.d/", name: "rc.local", tag: "rc" }
+    - { dir: "/etc/", name: "resolv.conf", tag: "dns" }
+  loop_control:
+    loop_var: conf
+
+- name: Set optimized list
+  vars:
+    op_tag_results: []
+  set_fact:
+    op_tag_results: "{{ op_tag_results + [op_tag.stdout] }}"
+  loop: "{{ optimize_tag.results }}"
+  loop_control:
+    loop_var: op_tag
+
+- name: debug
+  debug:
+    var: op_tag_results

@@ -1,0 +1,13 @@
+#### prometheus ####
+# prometheus 源文件目录
+prometheus_src_dir: "{{ src_dir }}/prometheus-{{ prometheus_version }}"
+# prometheus 安装变量
+prometheus_install_dir: '/usr/local/prometheus-{{ prometheus_version }}'
+prometheus_data_dir: "{{ prometheus_install_dir}}/data"
+prometheus_conf_dir: "{{ prometheus_install_dir}}/conf"
+prometheus_bin_dir: "{{ prometheus_install_dir}}/bin"
+prometheus_logs_dir: "{{ prometheus_install_dir}}/logs"
+prometheus_service_dir: /etc/systemd/system/
+
+prometheus_hostip: "{{ ansible_host }}"
+prometheus_hostname: "{{ inventory_hostname }}"

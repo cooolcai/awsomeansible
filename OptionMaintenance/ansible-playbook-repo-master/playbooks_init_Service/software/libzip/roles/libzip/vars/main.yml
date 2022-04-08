@@ -1,0 +1,2 @@
+# libzip
+libzip_src_dir: "{{ src_dir }}/libzip-{{ libzip_version }}"

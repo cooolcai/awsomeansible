@@ -1,0 +1,21 @@
+---
+
+- name: start tomcat
+  raw: "{{ tomcat_bin_dir }}/startup.sh"
+  tags: start_tomcat
+
+- name: stop tomcat
+  raw: "{{ tomcat_bin_dir }}/shutdown.sh"
+  tags: stop_tomcat
+
+- name: clean test data
+  shell: |
+    rm -rf "{{ tomcat_data_dir }}"
+  tags: clean_test_data
+  ignore_errors: True
+
+- name: clean tomcat
+  shell: |
+    rm -rf {{ tomcat_install_dir }}
+  tags: clean_tomcat
+  ignore_errors: True

@@ -1,0 +1,20 @@
+---
+
+- name: start node_exporter
+  service:
+    name: node_exporter
+    state: started
+  tags: start_node_exporter
+
+- name: stop node_exporter
+  service:
+    name: node_exporter
+    state: stopped
+  tags: stop_node_exporter
+
+- name: clean node_exporter
+  shell: |
+    systemctl stop node_exporter
+    rm -rf {{ node_exporter_install_dir }}
+  tags: clean_node_exporter
+  ignore_errors: True

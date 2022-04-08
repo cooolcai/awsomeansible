@@ -1,0 +1,13 @@
+---
+- name: init conf
+  template:
+    src: etcd.service.j2
+    dest: "{{ etcd_service_dir }}/etcd.service"
+    mode: '0644'
+  tags: init_conf
+  when:  etcd_version[0:3] == "3.4"
+
+- name: set etcd service
+  shell: |
+    systemctl daemon-reload && systemctl enable etcd
+  tags: init_conf

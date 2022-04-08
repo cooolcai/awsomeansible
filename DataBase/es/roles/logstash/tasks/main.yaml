@@ -1,0 +1,9 @@
+#安装logstash
+- name: "1、创建logstash安装位置"
+  shell: mkdir -p /usr/local/logstash/
+- name: "2、下载logstash安装包"
+  shell: wget -P /usr/local/logstash/ https://artifacts.elastic.co/downloads/logstash/logstash-7.6.2.tar.gz
+- name: "3.解压logstash安装包"
+  shell: tar -zxvf /usr/local/logstash/logstash-7.6.2.tar.gz -C /usr/local/logstash/
+- name: "设置es用户权限"
+  shell: chown -R es:es /usr/local/logstash/

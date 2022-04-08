@@ -1,0 +1,41 @@
+---
+- name: Init Directiory
+  file:
+    path: "{{ python_dir }}"
+    state: directory
+  loop:
+    - "{{ python_src_dir }}"
+    - "{{ pip_conf_dir }}"
+  loop_control:
+    loop_var: python_dir
+
+- name: Upload pip.conf
+  copy:
+    src: pip.conf
+    dest: "{{ pip_conf_dir }}/pip.conf"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+- name: Upload python src
+  copy:
+    src: "Python-{{ python_version}}.tgz"
+    dest: "{{ python_src_dir }}/Python-{{ python_version}}.tgz"
+    mode: "0755"
+    remote_src: no
+
+- name: Install python
+  shell: |
+    cd "{{ python_src_dir }}"
+    tar xf Python-"{{ python_version}}.tgz"
+    cd Python-"{{ python_version}}"
+    make clean
+    ./configure --prefix=/usr/local/python-{{ python_version }} --with-ssl 
+    make -j`grep -c processor /proc/cpuinfo`
+    make install
+    echo export PATH=$PATH:/usr/local/python-"{{ python_version }}"/bin/ >> /etc/profile
+    source /etc/profile
+    pip3 install --upgrade pip
+
+
+

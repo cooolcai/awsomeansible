@@ -1,0 +1,12 @@
+---
+# 安装zookeeper
+- include: install_zk.yml
+  tags: install_zk
+
+# 目录初始化
+- include: set_zk.yml
+  tags: init_conf
+
+# 其他操作
+- include: set_other.yml
+  tags: set_other

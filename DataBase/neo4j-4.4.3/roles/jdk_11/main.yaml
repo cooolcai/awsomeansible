@@ -1,0 +1,20 @@
+- hosts: jdk
+  remote_user: root
+  vars:
+    name: "jdk"
+    install_path: /data/cloud1
+  tasks:
+    - name: "1.设置源"
+      shell: curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+    - name: "2.yum下载安装wegt"
+      shell: yum -y install wget
+    - name: "3.yum下载安装jdk-11"
+      shell: yum -y install java-11-openjdk
+    - name: "4.设置jdk-11环境变量"
+      shell: echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.14.1.1-1.el7_9.x86_64 >> /etc/profile &&
+        echo JRE_HOME=$JAVA_HOME/jre >> /etc/profile &&
+        echo CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib >> /etc/profile &&
+        echo PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin >> /etc/profile &&
+        echo export JAVA_HOME JRE_HOME CLASS_PATH PATH >> /etc/profile &&
+        source /etc/profile
+

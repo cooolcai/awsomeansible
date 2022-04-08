@@ -1,0 +1,11 @@
+[docker_hosts]
+10.42.40.45
+
+[docker_hosts_with_password]
+node1 ansible_host=10.42.40.46 ansible_port=22 ansible_user="root" ansible_ssh_pass="ilw@2021a"
+
+[mysql57_hosts_with_password]
+node2 ansible_host=10.42.40.47 ansible_port=22 ansible_user="root" ansible_ssh_pass="ilw@2021a"
+
+[neo4j_hosts_with_password]
+node3 ansible_host=10.42.40.48 ansible_port=22 ansible_user="root" ansible_ssh_pass="ilw@2021a"

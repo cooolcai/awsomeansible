@@ -1,0 +1,4 @@
+---
+- hosts: elasticsearch_host
+  roles:
+    - role: multi_node

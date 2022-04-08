@@ -1,0 +1,32 @@
+
+- name: init directiory
+  file:
+    path: "{{ etcd_dir }}"
+    state: directory
+  loop:
+    - "{{ etcd_src_dir }}"
+    - "{{ etcd_data_dir }}"
+    - "{{ etcd_conf_dir }}"
+    - "{{ etcd_bin_dir }}"
+    - "{{ etcd_logs_dir }}"
+  loop_control:
+    loop_var: etcd_dir
+
+- name: upload etcd src
+  copy:
+    src: "etcd-v{{ etcd_version}}-linux-amd64.tar.gz"
+    dest: "{{ etcd_src_dir }}/etcd-v{{ etcd_version}}-linux-amd64.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install etcd
+  shell: |
+    cd "{{ etcd_src_dir }}"
+    tar xf "etcd-v{{ etcd_version}}-linux-amd64.tar.gz"
+    cd "etcd-v{{ etcd_version}}-linux-amd64"
+    
+
+- name: mv etcd binary 
+  shell: 
+    cmd: mv etcd etcdctl "{{ etcd_install_dir }}/bin/"
+    chdir: "{{ etcd_src_dir }}/etcd-v{{ etcd_version}}-linux-amd64"

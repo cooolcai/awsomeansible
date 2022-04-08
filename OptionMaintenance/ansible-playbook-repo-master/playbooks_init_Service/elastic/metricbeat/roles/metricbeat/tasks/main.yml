@@ -1,0 +1,16 @@
+---
+- name: Init Metricbeat Dir
+  file:
+    path: /opt/src/metricbeat
+    state: directory
+
+- name: Download Metricbeat Package
+  get_url:
+    url: "https://mirrors.tuna.tsinghua.edu.cn/elasticstack/7.x/yum/{{ elastic_version }}/metricbeat-{{ elastic_version }}-x86_64.rpm"
+    dest: "/opt/src/metricbeat/metricbeat-{{ elastic_version }}-x86_64.rpm"
+    timeout: 600
+
+- name: Install Metricbeat RPM
+  yum:
+    name: "/opt/src/metricbeat/metricbeat-{{ elastic_version }}-x86_64.rpm"
+    state: present

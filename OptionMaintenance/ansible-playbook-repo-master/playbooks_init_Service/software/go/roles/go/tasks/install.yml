@@ -1,0 +1,24 @@
+---
+- name: init directiory
+  file:
+    path: "{{ go_dir }}"
+    state: directory
+  loop:
+    - "{{ go_src_dir }}/go{{ go_version }}"
+  loop_control:
+    loop_var: go_dir
+
+
+- name: upload go src
+  copy:
+    src: "go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "{{ go_src_dir }}"
+    mode: "0755"
+    remote_src: no
+
+- name: install go
+  shell: |
+    cd "{{ go_src_dir }}"
+    tar xf "go{{ go_version }}.linux-amd64.tar.gz"
+    mv "{{ go_src_dir }}/go/*" "{{ go_install_dir }}"
+    echo "export PATH=$PATH:/usr/local/go{{ go_version }}/bin" > /etc/profile.d/go.sh

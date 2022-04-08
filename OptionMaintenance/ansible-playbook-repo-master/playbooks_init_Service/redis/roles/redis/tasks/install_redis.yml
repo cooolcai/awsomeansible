@@ -1,0 +1,34 @@
+
+- name: init directiory
+  file:
+    path: "{{ redis_dir }}"
+    state: directory
+  loop:
+    - "{{ redis_src_dir }}"
+    - "{{ redis_data_dir }}"
+    - "{{ redis_conf_dir }}"
+    - "{{ redis_bin_dir }}"
+    - "{{ redis_logs_dir }}"
+  loop_control:
+    loop_var: redis_dir
+
+
+- name: upload redis src
+  copy:
+    src: "redis-{{ redis_version}}.tar.gz"
+    dest: "{{ redis_src_dir }}/redis-{{ redis_version}}.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install redis
+  shell: |
+    cd "{{ redis_src_dir }}"
+    tar xf redis-"{{ redis_version}}.tar.gz"
+    cd redis-"{{ redis_version}}"
+    make clean
+    make -j`grep -c processor /proc/cpuinfo`
+
+- name: mv redis binary 
+  shell: 
+    cmd: mv redis-cli redis-check-aof  redis-check-rdb redis-server redis-sentinel redis-benchmark redis-trib.rb "{{ redis_install_dir }}/bin/"
+    chdir: "{{ redis_src_dir }}/redis-{{ redis_version}}/src/"

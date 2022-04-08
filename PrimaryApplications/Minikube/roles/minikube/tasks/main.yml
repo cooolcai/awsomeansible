@@ -1,0 +1,55 @@
+---
+- name: execute shell install minikube
+  shell: |
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube
+    minikube version
+
+- name: execute shell install kubectl
+  shell: |
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    kubectl version --client
+    service firewalld stop
+    systemctl disable firewalld
+
+- name: use yum to install kubectl's dependency
+  yum:
+    name: conntrack
+#  notify:
+#    - init a k8s cluster
+
+- name: init a k8s cluster
+  shell: |
+    minikube start --image-mirror-country='cn' --cpus=4 --memory=4096mb --driver=none
+
+- name: copy dashboard-250.yaml
+  copy:
+    src: dashboard-250.yaml
+    dest: /opt/dashboard-250.yaml
+
+- name: copy dashboard-250-admin.yaml
+  copy:
+    src: dashboard-250-admin.yaml
+    dest: /opt/dashboard-250-admin.yaml
+
+- name: install k8s dashboard
+  shell: |
+    kubectl apply -f /opt/dashboard-250.yaml
+    kubectl apply -f /opt/dashboard-250-admin.yaml
+
+- name: get dashboard account token name
+  shell: |
+    kubectl get secret -n kubernetes-dashboard|grep kubernetes-dashboard-token|awk '{print $1}'
+  register: dashboard_token_name
+
+- name: show dashboard account token name
+  debug: var=dashboard_token_value verbosity=0
+
+- name: get dashboard account token value
+  shell: |
+    kubectl describe secret -n kubernetes-dashboard {{ dashboard_token_name }}|grep token:|awk '{print $2}'
+  register: dashboard_token_value value
+
+- name: show dashboard account token
+  debug: var=dashboard_token_value verbosity=0

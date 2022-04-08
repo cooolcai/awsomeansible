@@ -1,0 +1,6 @@
+#### Python ####
+# Python 源文件目录
+python_src_dir: "{{ src_dir }}/python-{{ python_version }}"
+pip_conf_dir: "/root/pip/"
+# Python 安装变量
+python_install_dir: '/usr/local/python-{{ python_version }}'

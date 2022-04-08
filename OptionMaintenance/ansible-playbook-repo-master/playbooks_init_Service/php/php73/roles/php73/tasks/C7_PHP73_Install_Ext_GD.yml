@@ -1,0 +1,66 @@
+---
+- name: Upload GD Depend Package
+  copy:
+    src: "{{ dep_package }}"
+    dest: "{{ php73_src_dir }}/{{ dep_package }}"
+    mode: "0755"
+    remote_src: no
+  loop:
+    - "jpegsrc.{{ libjpeg_version }}.tar.gz" 
+    - "freetype-{{ freetype_version }}.tar.gz"
+    - "libpng-{{ libpng_version }}.tar.gz"
+    - "zlib-{{ zlib_version }}.tar.gz"
+  loop_control:
+    loop_var: dep_package
+
+- name: Unzip GD Depend Package
+  shell: |
+    cd {{ php73_src_dir }}
+    tar -zxvf {{ package_name}}
+  loop:
+    - "jpegsrc.{{ libjpeg_version }}.tar.gz" 
+    - "freetype-{{ freetype_version }}.tar.gz"
+    - "libpng-{{ libpng_version }}.tar.gz"
+    - "zlib-{{ zlib_version }}.tar.gz"
+  loop_control:
+    loop_var: package_name
+
+
+- name: Install jpeg for GD Depend
+  shell: |
+    cd {{ php73_src_dir }}/jpeg-{{ libjpeg_dir_version }}
+    make clean
+    ./configure --prefix=/usr/local/libjpeg --enable-shared
+    make -s -j$(nproc)  && make install
+
+- name: Install png for GD Depend
+  shell: |
+    cd {{ php73_src_dir }}/libpng-{{ libpng_version }}
+    make clean
+    ./configure --prefix=/usr/local/libpng
+    make -s -j$(nproc)  && make install
+
+- name: Install libzip for GD Depend
+  shell: |
+    cd {{ php73_src_dir }}/zlib-{{ zlib_version }}
+    make clean
+    ./configure --prefix=/usr/local/zlib
+    make -s -j$(nproc)  && make install
+
+- name: Install freestyle for GD Depend
+  shell: |
+    cd {{ php73_src_dir }}/freetype-{{ freetype_version }}
+    make clean
+    ./configure --prefix=/usr/local/freetype
+    make -s -j$(nproc)  && make install
+
+- name: Install GD
+  shell: |
+    cd {{ gd_extend_dir }}
+    {{ php73_phpize_dir }}
+    ./configure \
+    --with-php-config={{ php73_install_dir }}/bin/php-config \
+    --with-jpeg \
+    --with-freetype \
+    make -s -j$(nproc)  && make install
+    if ! `grep -q ^extension=gd.so {{ php74_install_dir }}/etc/php.ini`;then echo extension=gd.so >> {{ php74_install_dir }}/etc/php.ini;fi

@@ -1,0 +1,26 @@
+---
+- name: init directiory
+  file:
+    path: "{{ cmake_dir }}"
+    state: directory
+  loop:
+    - "{{ cmake_src_dir }}"
+  loop_control:
+    loop_var: cmake_dir
+
+
+- name: upload cmake src
+  copy:
+    src: "cmake-{{ cmake_version}}.tar.gz"
+    dest: "{{ cmake_src_dir }}/cmake-{{ cmake_version}}.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install cmake
+  shell: |
+    cd "{{ cmake_src_dir }}"
+    tar xf cmake-"{{ cmake_version}}.tar.gz"
+    cd cmake-"{{ cmake_version}}"
+    ./configure
+    make -j`grep -c processor /proc/cpuinfo`
+    make install

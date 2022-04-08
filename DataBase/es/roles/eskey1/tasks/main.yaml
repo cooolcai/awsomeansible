@@ -1,0 +1,25 @@
+###创建es证书
+- name: "1、创建es证书文件elastic-stack-ca.p12"
+  shell: /usr/local/es/elasticsearch-7.6.2/bin/elasticsearch-certutil ca --out /usr/local/es/elasticsearch-7.6.2/elastic-stack-ca.p12 --pass ""
+- name: "2、创建es密匙文件elastic-certificates.p12"
+  shell: /usr/local/es/elasticsearch-7.6.2/bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12 --ca-pass "" --out /usr/local/es/elasticsearch-7.6.2/elastic-certificates.p12 --pass ""
+- name: "3、移动配置文件夹"
+  fetch:
+    src: "/usr/local/es/elasticsearch-7.6.2/elastic-stack-ca.p12"
+    dest: "/etc/ansible/awsomeansible/DataBase/es/roles/eskey1/files/"
+    owner: root
+    mode: 777
+- name: "4、移动配置文件夹"
+  fetch:
+    src: "/usr/local/es/elasticsearch-7.6.2/elastic-certificates.p12"
+    dest: "/etc/ansible/awsomeansible/DataBase/es/roles/eskey1/files/"
+    owner: root
+    mode: 777
+- name: "4、移动配置文件夹1"
+  shell: mv /usr/local/es/elasticsearch-7.6.2/elastic-stack-ca.p12 /usr/local/es/elasticsearch-7.6.2/config/elastic-stack-ca.p12
+- name: "5、移动配置文件夹2"
+  shell: mv /usr/local/es/elasticsearch-7.6.2/elastic-certificates.p12 /usr/local/es/elasticsearch-7.6.2/config/elastic-certificates.p12
+- name: "6、设置权限"
+  shell: chown -R es:es /usr/local/es/elasticsearch-7.6.2/config/elastic-certificates.p12
+- name: "7、设置权限"
+  shell: chown -R es:es /usr/local/es/elasticsearch-7.6.2/config/elastic-stack-ca.p12

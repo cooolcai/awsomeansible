@@ -1,0 +1,21 @@
+---
+
+- name: start kafka
+  shell: "nohup {{ kafka_bin_dir }}/kafka-server-start.sh {{ kafka_conf_dir }}/server.properties &"
+  tags: start_kafka
+
+- name: stop kafka
+  shell: "{{ kafka_bin_dir }}/kafka-server-stop.sh"
+  tags: stop_kafka
+
+- name: clean test data
+  shell: |
+    "{{ kafka_bin_dir }}/kafka-server-stop.sh"
+    rm -rf {{ kafka_data_dir }}/*
+  tags: clean_test_data
+
+- name: clean kafka
+  shell: |
+    "{{ kafka_bin_dir }}/kafka-server-stop.sh"
+    rm -rf {{ kafka_install_dir }}
+  tags: clean_kafka

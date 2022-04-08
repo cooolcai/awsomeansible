@@ -1,0 +1,26 @@
+[
+  {
+    "id": "378e8614-cd69-db22-4485-34fcb35953c5",
+    "address": "10.244.2.32:8300",
+    "non_voter": false
+  },
+  {
+    "id": "c942f12f-f665-f964-0fe0-3c42c8b08365",
+    "address": "10.244.1.19:8300",
+    "non_voter": false
+  },
+  {
+    "id": "81419752-f2fb-067a-7ed4-d2aa6aeb86b6",
+    "address": "10.244.0.19:8300",
+    "non_voter": false
+  }
+]
+###
+/ $ consul members
+Node                    Address           Status  Type    Build   Protocol  DC   Partition  Segment
+consul-consul-server-0  10.244.2.32:8301  alive   server  1.11.1  2         dc1  default    <all>
+consul-consul-server-1  10.244.1.19:8301  alive   server  1.11.1  2         dc1  default    <all>
+consul-consul-server-2  10.244.0.19:8301  alive   server  1.11.1  2         dc1  default    <all>
+10.43.10.73             10.244.0.18:8301  alive   client  1.11.1  2         dc1  default    <default>
+10.43.10.74             10.244.1.18:8301  alive   client  1.11.1  2         dc1  default    <default>
+10.43.10.75             10.244.2.31:8301  alive   client  1.11.1  2         dc1  default    <default>

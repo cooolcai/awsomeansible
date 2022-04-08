@@ -1,0 +1,17 @@
+---
+- name: Init Elasticsearch Dir
+  file:
+    path: /opt/src/elasticsearch
+    state: directory
+
+- name: Download Elasticsearch Package
+  get_url:
+    validate_certs: no
+    url: "http://mirrors.tuna.tsinghua.edu.cn/elasticstack/7.x/yum/{{ elastic_version }}/elasticsearch-{{ elastic_version }}-x86_64.rpm"
+    dest: "/opt/src/elasticsearch/elasticsearch-{{ elastic_version }}-x86_64.rpm"
+    timeout: 600
+
+- name: Install Elasticsearh RPM
+  yum:
+    name: "/opt/src/elasticsearch/elasticsearch-{{ elastic_version }}-x86_64.rpm"
+    state: present

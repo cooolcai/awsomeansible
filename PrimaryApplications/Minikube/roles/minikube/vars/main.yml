@@ -1,0 +1,5 @@
+#### docker ####
+# docker 源文件目录
+docker_version: "19.03.15"
+# docker 安装变量
+docker_data_dir: "/data/docker"

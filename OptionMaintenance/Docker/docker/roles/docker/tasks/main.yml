@@ -1,0 +1,10 @@
+---
+- include_tasks: "{{ item }}.yml"
+  with_items:
+    - clean_op_tags
+    - judge_op_tags
+    - add_yum_repo
+    - set_docker
+  when:
+    - ansible_distribution_major_version == "7"
+    

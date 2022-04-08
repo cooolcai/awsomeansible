@@ -1,0 +1,4 @@
+---
+- hosts: go_host
+  roles:
+    - role: go

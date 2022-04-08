@@ -1,0 +1,8 @@
+---
+- name: init conf
+  template:
+    src: m3db_cluster.yml.j2
+    dest: "{{ m3db_conf_dir }}/m3db_cluster.yml"
+    mode: '0644'
+  tags: init_conf
+  when:  m3db_version[0:3] == "1.1"

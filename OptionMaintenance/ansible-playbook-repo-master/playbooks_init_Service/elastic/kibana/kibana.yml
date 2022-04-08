@@ -1,0 +1,4 @@
+---
+- hosts: kibana_host
+  roles:
+    - role: kibana

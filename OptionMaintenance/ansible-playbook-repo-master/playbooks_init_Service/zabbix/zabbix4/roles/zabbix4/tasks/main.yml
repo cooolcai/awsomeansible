@@ -1,0 +1,91 @@
+---
+- name: Start MySQL
+  shell: /etc/init.d/mysql.server start
+
+- name: Copy Zabbix Yum Repo for tsinghua
+  template:
+    src: zabbix.repo.j2
+    dest: /etc/yum.repos.d/zabbix.repo
+    mode: '0755'
+
+- name: Install Zabbix Packages
+  yum:
+    name: "{{ packages_name }}"
+  loop:
+    - zabbix-server-mysql
+    - zabbix-agent
+    - zabbix-web
+  loop_control:
+    loop_var: packages_name
+
+
+- name: Copy Zabbix Init DB
+  template:
+    src: zabbix_init_db.sh.j2
+    dest: /tmp/zabbix_init_db.sh
+    mode: '0755'
+  tags:
+    - copy_zabbix_init_db
+
+- name: Init Zabbix MySQL DB
+  shell: /bin/bash /tmp/zabbix_init_db.sh
+  tags:
+    - zabbix_init_db
+
+
+- name: Copy Zabbix Nginx Conf
+  template:
+    src: zabbix_nginx.conf.j2
+    dest: "{{ tnginx_conf_dir }}/zabbix.conf"
+    mode: '0755'
+  tags:
+    - copy_zabbix_nginx_conf
+
+- name: Copy Zabbix PHP-FPM Conf
+  template:
+    src: zabbix_php.conf.j2
+    dest: "{{ php_conf_dir }}/php-fpm.conf"
+    mode: '0755'
+  tags:
+    - copy_zabbix_php_conf
+
+- name: Copy Zabbix Server Conf
+  template:
+    src: zabbix_server.conf.j2
+    dest: /etc/zabbix/zabbix_server.conf
+    mode: '0755'
+  tags:
+    - copy_zabbix_server_conf
+
+- name: Copy Zabbix Server Web Conf
+  template:
+    src: zabbix.conf.php.j2
+    dest: /etc/zabbix/web/zabbix.conf.php
+    mode: '0755'
+  tags:
+    - copy_zabbix_web_conf
+
+- name: Replace Zabbix Server Web conf
+  shell: |
+    sed -i "s%zabbix_db_user%'{{ zabbix_db_user }}'%g" /etc/zabbix/web/zabbix.conf.php
+    sed -i "s%zabbix_db_password%'{{ zabbix_db_password }}'%g" /etc/zabbix/web/zabbix.conf.php
+    sed -i "s%zabbix_serverip%'{{ zabbix_serverip }}'%g" /etc/zabbix/web/zabbix.conf.php
+    sed -i "s%zabbix_db%'{{ zabbix_db }}'%g" /etc/zabbix/web/zabbix.conf.php
+    /usr/bin/chown zabbix.zabbix /etc/zabbix/web -R
+  tags:
+    - replace_zabbix_server_web_conf
+
+- name: Copy Zabbix Server Agent Conf
+  template:
+    src: zabbix_agentd.conf.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
+    mode: '0755'
+  tags:
+    - copy_zabbix_agent_conf
+
+
+- name: Start Nginx PHP Zabbix
+  shell: |
+    {{ tnginx_install_dir }}/sbin/nginx
+    {{ php74_start_script }} start
+    systemctl restart zabbix-server zabbix-agent

@@ -1,0 +1,15 @@
+--- 
+- name: clean optimization tags
+  lineinfile:
+    path: "{{ op_tag }}"
+    state: absent
+    regexp: '.docker_init'
+  loop:
+ #   - /etc/sysctl.d/docker.conf
+ #   - /etc/rc.d/rc.local
+    - /etc/docker/daemon.json
+ #   - /etc/yum.repos.d/docker-ce.repo 
+  loop_control:
+    loop_var: op_tag
+  tags:
+    clean_op_tags

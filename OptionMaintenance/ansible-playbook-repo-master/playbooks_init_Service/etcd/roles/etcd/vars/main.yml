@@ -1,0 +1,18 @@
+#### etcd ####
+# etcd 源文件目录
+etcd_src_dir: "{{ src_dir }}/etcd-{{ etcd_version }}"
+# etcd 安装变量
+etcd_install_dir: '/usr/local/etcd-{{ etcd_version }}'
+etcd_data_dir: "{{ etcd_install_dir}}/data/"
+etcd_conf_dir: "{{ etcd_install_dir}}/conf"
+etcd_bin_dir: "{{ etcd_install_dir}}/bin"
+etcd_logs_dir: "{{ etcd_install_dir}}/logs"
+etcd_service_dir: /etc/systemd/system/
+
+etcd_pki_dir: "{{ etcd_install_dir }}/pki"
+etcd_hostip: "{{ ansible_host }}"
+etcd_hostname: "{{ inventory_hostname }}"
+
+etcd_pki_cluster: 'c7-k8s-01-88-71=https://192.168.88.71:2380,c7-k8s-02-88-72=https://192.168.88.72:2380,c7-k8s-03-88-73=https://192.168.88.73:2380,c7-k8s-04-88-74=https://192.168.88.74:2380,c7-k8s-05-88-75=https://192.168.88.75:2380'
+etcd_cluster: 'c7-k8s-01-88-71=http://192.168.88.71:2380,c7-k8s-02-88-72=http://192.168.88.72:2380,c7-k8s-03-88-73=http://192.168.88.73:2380,c7-k8s-04-88-74=http://192.168.88.74:2380,c7-k8s-05-88-75=http://192.168.88.75:2380'
+etcd_cluster_name: 'etcd-cluster-0'

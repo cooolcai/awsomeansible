@@ -1,0 +1,24 @@
+--- 
+- name: clean optimization tags
+  lineinfile:
+    path: "{{ op_tag }}"
+    state: absent
+    regexp: '.system_init'
+  loop:
+ #   - /etc/yum.repos.d/CentOS-Base.repo
+ #   - /etc/yum.repos.d/epel.repo
+ #   - /etc/locale.conf
+ #   - /etc/security/limits.d/20-nproc.conf
+ #   - /etc/limits.conf
+ #   - /etc/ssh/sshd_config
+ #   - /etc/sysctl.conf
+ #   - /etc/profile.d/ps.sh
+ #   - /root/.vimrc
+ #   - /etc/fail2ban/jail.conf
+ #   - /var/spool/cron/root
+ #   - /etc/rc.d/rc.local
+ #   - /etc/resolv.conf
+  loop_control:
+    loop_var: op_tag
+  tags:
+    clean_op_tags

@@ -1,0 +1,12 @@
+---
+- name: judge resolv.conf
+  shell: if grep -q system_init /etc/resolv.conf;then echo yes;else echo no;fi
+  register: resolv_optimize_tag
+
+- name: Setting resolv.conf
+  copy:
+    src: resolv.conf
+    dest: /etc/resolv.conf
+    mode: "0755"
+    remote_src: no
+  when: resolv_optimize_tag.stdout_lines[0] == "no"

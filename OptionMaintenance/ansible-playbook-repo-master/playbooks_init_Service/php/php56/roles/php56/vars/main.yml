@@ -1,0 +1,18 @@
+#### PHP ####
+# PHP7.3 源文件目录
+
+php56_src_dir: "/opt/lnmp"
+php56_ext_src_dir: "{{ php56_src_dir }}/phpext"
+php56_script_dir: "{{ php56_src_dir }}/scripts"
+# PHP7.3 版本安装变量
+php56_install_dir: '/usr/local/php56'
+php56_phpize_dir: "{{ php56_install_dir }}/bin/phpize"
+php56_conf_dir: "{{ php56_install_dir }}/etc"
+php56_version: 'php-5.6.40'
+php56_exten_dir: "{{php56_install_dir}}/lib/php/extensions/no-debug-non-zts-20131226/"
+
+# PHP-FPM Optimiz
+php56_pm: 'static'
+php56_max_children: '200'
+php56_owner: nobody
+php56_group: nobody

@@ -1,0 +1,4 @@
+---
+- hosts: tnginx_host
+  roles:
+    - role: tnginx

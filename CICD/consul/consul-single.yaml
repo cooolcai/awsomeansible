@@ -1,0 +1,1217 @@
+NAME: consul
+LAST DEPLOYED: Fri Mar 25 15:14:07 2022
+NAMESPACE: consul
+STATUS: deployed
+REVISION: 1
+USER-SUPPLIED VALUES:
+dns:
+  enableRedirection: true
+  enabled: true
+server:
+  bootstrapExpect: 1
+  replicas: 1
+  storageClass: nfs
+
+COMPUTED VALUES:
+apiGateway:
+  consulNamespaces:
+    consulDestinationNamespace: default
+    mirroringK8S: false
+    mirroringK8SPrefix: ""
+  controller:
+    annotations: null
+    nodeSelector: null
+    priorityClassName: ""
+    replicas: 1
+    service:
+      annotations: null
+  enabled: false
+  image: null
+  logLevel: info
+  managedGatewayClass:
+    copyAnnotations:
+      service: null
+    enabled: true
+    nodeSelector: null
+    serviceType: LoadBalancer
+    useHostPorts: false
+  serviceAccount:
+    annotations: null
+client:
+  affinity: null
+  annotations: null
+  containerSecurityContext:
+    aclInit: null
+    client: null
+    tlsInit: null
+  dataDirectoryHostPath: null
+  dnsPolicy: null
+  enabled: '-'
+  exposeGossipPorts: false
+  extraConfig: |
+    {}
+  extraContainers: []
+  extraEnvironmentVars: {}
+  extraLabels: null
+  extraVolumes: []
+  grpc: true
+  hostNetwork: false
+  image: null
+  join: null
+  nodeMeta:
+    host-ip: ${HOST_IP}
+    pod-name: ${HOSTNAME}
+  nodeSelector: null
+  priorityClassName: ""
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  securityContext:
+    fsGroup: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 100
+  serviceAccount:
+    annotations: null
+  snapshotAgent:
+    caCert: null
+    configSecret:
+      secretKey: null
+      secretName: null
+    enabled: false
+    replicas: 2
+    resources:
+      limits:
+        cpu: 50m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+    serviceAccount:
+      annotations: null
+  tolerations: ""
+  updateStrategy: null
+connectInject:
+  aclBindingRuleSelector: serviceaccount.name!=default
+  aclInjectToken:
+    secretKey: null
+    secretName: null
+  affinity: null
+  consulNamespaces:
+    consulDestinationNamespace: default
+    mirroringK8S: false
+    mirroringK8SPrefix: ""
+  default: false
+  enabled: false
+  envoyExtraArgs: null
+  failurePolicy: Fail
+  image: null
+  imageConsul: null
+  initContainer:
+    resources:
+      limits:
+        cpu: 50m
+        memory: 150Mi
+      requests:
+        cpu: 50m
+        memory: 25Mi
+  k8sAllowNamespaces:
+  - '*'
+  k8sDenyNamespaces: []
+  logLevel: ""
+  metrics:
+    defaultEnableMerging: false
+    defaultEnabled: '-'
+    defaultMergedMetricsPort: 20100
+    defaultPrometheusScrapePath: /metrics
+    defaultPrometheusScrapePort: 20200
+  namespaceSelector: |
+    matchExpressions:
+      - key: "kubernetes.io/metadata.name"
+        operator: "NotIn"
+        values: ["kube-system","local-path-storage"]
+  nodeSelector: null
+  overrideAuthMethodName: ""
+  priorityClassName: ""
+  replicas: 2
+  resources:
+    limits:
+      cpu: 50m
+      memory: 50Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi
+  serviceAccount:
+    annotations: null
+  sidecarProxy:
+    resources:
+      limits:
+        cpu: null
+        memory: null
+      requests:
+        cpu: null
+        memory: null
+  tolerations: null
+  transparentProxy:
+    defaultEnabled: true
+    defaultOverwriteProbes: true
+controller:
+  aclToken:
+    secretKey: null
+    secretName: null
+  affinity: null
+  enabled: false
+  logLevel: ""
+  nodeSelector: null
+  priorityClassName: ""
+  replicas: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 50Mi
+    requests:
+      cpu: 100m
+      memory: 50Mi
+  serviceAccount:
+    annotations: null
+  tolerations: null
+dns:
+  additionalSpec: null
+  annotations: null
+  clusterIP: null
+  enableRedirection: true
+  enabled: true
+  type: ClusterIP
+externalServers:
+  enabled: false
+  hosts: []
+  httpsPort: 8501
+  k8sAuthMethodHost: null
+  tlsServerName: null
+  useSystemRoots: false
+global:
+  acls:
+    bootstrapToken:
+      secretKey: null
+      secretName: null
+    createReplicationToken: false
+    manageSystemACLs: false
+    replicationToken:
+      secretKey: null
+      secretName: null
+  adminPartitions:
+    enabled: false
+    name: default
+    service:
+      annotations: null
+      nodePort:
+        https: null
+        rpc: null
+        serf: null
+      type: LoadBalancer
+  consulSidecarContainer:
+    resources:
+      limits:
+        cpu: 20m
+        memory: 50Mi
+      requests:
+        cpu: 20m
+        memory: 25Mi
+  datacenter: dc1
+  domain: consul
+  enableConsulNamespaces: false
+  enablePodSecurityPolicies: false
+  enabled: true
+  enterpriseLicense:
+    enableLicenseAutoload: true
+    secretKey: null
+    secretName: null
+  federation:
+    createFederationSecret: false
+    enabled: false
+    primaryDatacenter: ""
+    primaryGateways: []
+  gossipEncryption:
+    autoGenerate: false
+    secretKey: ""
+    secretName: ""
+  image: hashicorp/consul:1.11.3
+  imageEnvoy: envoyproxy/envoy-alpine:v1.20.2
+  imageK8S: hashicorp/consul-k8s-control-plane:0.41.1
+  imagePullSecrets: []
+  logJSON: false
+  logLevel: info
+  metrics:
+    agentMetricsRetentionTime: 1m
+    enableAgentMetrics: false
+    enableGatewayMetrics: true
+    enabled: false
+  name: null
+  openshift:
+    enabled: false
+  recursors: []
+  secretsBackend:
+    vault:
+      agentAnnotations: null
+      ca:
+        secretKey: ""
+        secretName: ""
+      connectCA:
+        additionalConfig: |
+          {}
+        address: ""
+        authMethodPath: kubernetes
+        intermediatePKIPath: ""
+        rootPKIPath: ""
+      consulCARole: ""
+      consulClientRole: ""
+      consulServerRole: ""
+      enabled: false
+      manageSystemACLsRole: ""
+  tls:
+    caCert:
+      secretKey: null
+      secretName: null
+    caKey:
+      secretKey: null
+      secretName: null
+    enableAutoEncrypt: false
+    enabled: false
+    httpsOnly: true
+    serverAdditionalDNSSANs: []
+    serverAdditionalIPSANs: []
+    verify: true
+ingressGateways:
+  defaults:
+    affinity: |
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: {{ template "consul.name" . }}
+                release: "{{ .Release.Name }}"
+                component: ingress-gateway
+            topologyKey: kubernetes.io/hostname
+    annotations: null
+    consulNamespace: default
+    initCopyConsulContainer:
+      resources:
+        limits:
+          cpu: 50m
+          memory: 150Mi
+        requests:
+          cpu: 50m
+          memory: 25Mi
+    nodeSelector: null
+    priorityClassName: ""
+    replicas: 2
+    resources:
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+    service:
+      additionalSpec: null
+      annotations: null
+      ports:
+      - nodePort: null
+        port: 8080
+      - nodePort: null
+        port: 8443
+      type: ClusterIP
+    serviceAccount:
+      annotations: null
+    terminationGracePeriodSeconds: 10
+    tolerations: null
+  enabled: false
+  gateways:
+  - name: ingress-gateway
+meshGateway:
+  affinity: |
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app: {{ template "consul.name" . }}
+              release: "{{ .Release.Name }}"
+              component: mesh-gateway
+          topologyKey: kubernetes.io/hostname
+  annotations: null
+  consulServiceName: mesh-gateway
+  containerPort: 8443
+  dnsPolicy: null
+  enabled: false
+  hostNetwork: false
+  hostPort: null
+  initCopyConsulContainer:
+    resources:
+      limits:
+        cpu: 50m
+        memory: 150Mi
+      requests:
+        cpu: 50m
+        memory: 25Mi
+  initServiceInitContainer:
+    resources:
+      limits:
+        cpu: 50m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+  nodeSelector: null
+  priorityClassName: ""
+  replicas: 2
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  service:
+    additionalSpec: null
+    annotations: null
+    enabled: true
+    nodePort: null
+    port: 443
+    type: LoadBalancer
+  serviceAccount:
+    annotations: null
+  tolerations: null
+  wanAddress:
+    port: 443
+    source: Service
+    static: ""
+prometheus:
+  enabled: false
+server:
+  affinity: |
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app: {{ template "consul.name" . }}
+              release: "{{ .Release.Name }}"
+              component: server
+          topologyKey: kubernetes.io/hostname
+  annotations: null
+  bootstrapExpect: 1
+  connect: true
+  containerSecurityContext:
+    server: null
+  disruptionBudget:
+    enabled: true
+    maxUnavailable: null
+  enabled: '-'
+  exposeGossipAndRPCPorts: false
+  extraConfig: |
+    {}
+  extraContainers: []
+  extraEnvironmentVars: {}
+  extraLabels: null
+  extraVolumes: []
+  image: null
+  nodeSelector: null
+  ports:
+    serflan:
+      port: 8301
+  priorityClassName: ""
+  replicas: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  securityContext:
+    fsGroup: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 100
+  serverCert:
+    secretName: null
+  service:
+    annotations: null
+  serviceAccount:
+    annotations: null
+  storage: 10Gi
+  storageClass: nfs
+  tolerations: ""
+  topologySpreadConstraints: ""
+  updatePartition: 0
+syncCatalog:
+  aclSyncToken:
+    secretKey: null
+    secretName: null
+  addK8SNamespaceSuffix: true
+  affinity: null
+  consulNamespaces:
+    consulDestinationNamespace: default
+    mirroringK8S: false
+    mirroringK8SPrefix: ""
+  consulNodeName: k8s-sync
+  consulPrefix: null
+  consulWriteInterval: null
+  default: true
+  enabled: false
+  extraLabels: null
+  image: null
+  k8sAllowNamespaces:
+  - '*'
+  k8sDenyNamespaces:
+  - kube-system
+  - kube-public
+  k8sPrefix: null
+  k8sSourceNamespace: null
+  k8sTag: null
+  logLevel: ""
+  nodePortSyncType: ExternalFirst
+  nodeSelector: null
+  priorityClassName: ""
+  resources:
+    limits:
+      cpu: 50m
+      memory: 50Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi
+  serviceAccount:
+    annotations: null
+  syncClusterIPServices: true
+  toConsul: true
+  toK8S: true
+  tolerations: null
+terminatingGateways:
+  defaults:
+    affinity: |
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: {{ template "consul.name" . }}
+                release: "{{ .Release.Name }}"
+                component: terminating-gateway
+            topologyKey: kubernetes.io/hostname
+    annotations: null
+    consulNamespace: default
+    extraVolumes: []
+    initCopyConsulContainer:
+      resources:
+        limits:
+          cpu: 50m
+          memory: 150Mi
+        requests:
+          cpu: 50m
+          memory: 25Mi
+    nodeSelector: null
+    priorityClassName: ""
+    replicas: 2
+    resources:
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+    serviceAccount:
+      annotations: null
+    tolerations: null
+  enabled: false
+  gateways:
+  - name: terminating-gateway
+tests:
+  enabled: true
+ui:
+  dashboardURLTemplates:
+    service: ""
+  enabled: '-'
+  ingress:
+    annotations: null
+    enabled: false
+    hosts: []
+    ingressClassName: ""
+    pathType: Prefix
+    tls: []
+  metrics:
+    baseURL: http://prometheus-server
+    enabled: '-'
+    provider: prometheus
+  service:
+    additionalSpec: null
+    annotations: null
+    enabled: true
+    nodePort:
+      http: null
+      https: null
+    port:
+      http: 80
+      https: 443
+    type: null
+webhookCertManager:
+  tolerations: null
+
+HOOKS:
+---
+# Source: consul/templates/tests/test-runner.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "consul-consul-test"
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: consul-test
+      image: "hashicorp/consul:1.11.3"
+      env:
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: CONSUL_HTTP_ADDR
+          value: http://$(HOST_IP):8500
+      command:
+        - "/bin/sh"
+        - "-ec"
+        - |
+            consul members | tee members.txt
+            if [ $(grep -c consul-server members.txt) != $(grep consul-server members.txt | grep -c alive) ]
+            then
+              echo "Failed because not all consul servers are available"
+              exit 1
+            fi
+
+  restartPolicy: Never
+MANIFEST:
+---
+# Source: consul/templates/server-disruptionbudget.yaml
+# PodDisruptionBudget to prevent degrading the server cluster through
+# voluntary cluster changes.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consul-consul-server
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+spec:
+  maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: consul
+      release: "consul"
+      component: server
+---
+# Source: consul/templates/client-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: consul-consul-client
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: client
+---
+# Source: consul/templates/server-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: consul-consul-server
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+---
+# Source: consul/templates/client-config-configmap.yaml
+# ConfigMap with extra configuration specified directly to the chart
+# for client agents only.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consul-consul-client-config
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: client
+data:
+  extra-from-values.json: |-
+    {}
+    
+  central-config.json: |-
+    {
+      "enable_central_service_config": true
+    }
+---
+# Source: consul/templates/server-config-configmap.yaml
+# StatefulSet to run the actual Consul server cluster.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consul-consul-server-config
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+data:
+  extra-from-values.json: |-
+    {}
+    
+  central-config.json: |-
+    {
+      "enable_central_service_config": true
+    }
+---
+# Source: consul/templates/client-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: consul-consul-client
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: client
+rules: []
+---
+# Source: consul/templates/server-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: consul-consul-server
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+rules: []
+---
+# Source: consul/templates/client-rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: consul-consul-client
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: client
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: consul-consul-client
+subjects:
+  - kind: ServiceAccount
+    name: consul-consul-client
+---
+# Source: consul/templates/server-rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: consul-consul-server
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: consul-consul-server
+subjects:
+  - kind: ServiceAccount
+    name: consul-consul-server
+---
+# Source: consul/templates/dns-service.yaml
+# Service for Consul DNS.
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-consul-dns
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: dns
+spec:
+  type: ClusterIP
+  ports:
+    - name: dns-tcp
+      port: 53
+      protocol: "TCP"
+      targetPort: dns-tcp
+    - name: dns-udp
+      port: 53
+      protocol: "UDP"
+      targetPort: dns-udp
+  selector:
+    app: consul
+    release: "consul"
+    hasDNS: "true"
+---
+# Source: consul/templates/server-service.yaml
+# Headless service for Consul server DNS entries. This service should only
+# point to Consul servers. For access to an agent, one should assume that
+# the agent is installed locally on the node and the NODE_IP should be used.
+# If the node can't run a Consul agent, then this service can be used to
+# communicate directly to a server agent.
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-consul-server
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+  annotations:
+    # This must be set in addition to publishNotReadyAddresses due
+    # to an open issue where it may not work:
+    # https://github.com/kubernetes/kubernetes/issues/58662
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  clusterIP: None
+  # We want the servers to become available even if they're not ready
+  # since this DNS is also used for join operations.
+  publishNotReadyAddresses: true
+  ports:
+    - name: http
+      port: 8500
+      targetPort: 8500
+    - name: serflan-tcp
+      protocol: "TCP"
+      port: 8301
+      targetPort: 8301
+    - name: serflan-udp
+      protocol: "UDP"
+      port: 8301
+      targetPort: 8301
+    - name: serfwan-tcp
+      protocol: "TCP"
+      port: 8302
+      targetPort: 8302
+    - name: serfwan-udp
+      protocol: "UDP"
+      port: 8302
+      targetPort: 8302
+    - name: server
+      port: 8300
+      targetPort: 8300
+    - name: dns-tcp
+      protocol: "TCP"
+      port: 8600
+      targetPort: dns-tcp
+    - name: dns-udp
+      protocol: "UDP"
+      port: 8600
+      targetPort: dns-udp
+  selector:
+    app: consul
+    release: "consul"
+    component: server
+---
+# Source: consul/templates/ui-service.yaml
+# UI Service for Consul Server
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-consul-ui
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: ui
+spec:
+  selector:
+    app: consul
+    release: "consul"
+    component: server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8500
+---
+# Source: consul/templates/client-daemonset.yaml
+# DaemonSet to run the Consul clients on every node.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: consul-consul-client
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: client
+spec:
+  selector:
+    matchLabels:
+      app: consul
+      chart: consul-helm
+      release: consul
+      component: client
+      hasDNS: "true"
+  template:
+    metadata:
+      labels:
+        app: consul
+        chart: consul-helm
+        release: consul
+        component: client
+        hasDNS: "true"
+      annotations:
+        "consul.hashicorp.com/connect-inject": "false"
+        "consul.hashicorp.com/config-checksum": adc1816adf238665ece23f4a53d9eeb753884e5b52bc81269f3227a797c930b8
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: consul-consul-client
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 100
+
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: consul-consul-client-config
+      containers:
+        - name: consul
+          image: "hashicorp/consul:1.11.3"
+          env:
+            - name: ADVERTISE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NODE
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: CONSUL_DISABLE_PERM_MGMT
+              value: "true"
+            
+          command:
+            - "/bin/sh"
+            - "-ec"
+            - |
+              CONSUL_FULLNAME="consul-consul"
+              recursor_flags=""
+              for ip in $(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2)
+              do
+                 recursor_flags="$recursor_flags -recursor=$ip"
+              done
+
+              mkdir -p /consul/extra-config
+              cp /consul/config/extra-from-values.json /consul/extra-config/extra-from-values.json
+              [ -n "${HOST_IP}" ] && sed -Ei "s|HOST_IP|${HOST_IP?}|g" /consul/extra-config/extra-from-values.json
+              [ -n "${POD_IP}" ] && sed -Ei "s|POD_IP|${POD_IP?}|g" /consul/extra-config/extra-from-values.json
+              [ -n "${HOSTNAME}" ] && sed -Ei "s|HOSTNAME|${HOSTNAME?}|g" /consul/extra-config/extra-from-values.json
+
+              exec /usr/local/bin/docker-entrypoint.sh consul agent \
+                -node="${NODE}" \
+                -advertise="${ADVERTISE_IP}" \
+                -bind=0.0.0.0 \
+                -client=0.0.0.0 \
+                -node-meta=host-ip:${HOST_IP} \
+                -node-meta=pod-name:${HOSTNAME} \
+                -hcl='leave_on_terminate = true' \
+                -hcl='ports { grpc = 8502 }' \
+                -config-dir=/consul/config \
+                -datacenter=dc1 \
+                -data-dir=/consul/data \
+                -retry-join="${CONSUL_FULLNAME}-server-0.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc:8301" \
+                $recursor_flags \
+                -config-file=/consul/extra-config/extra-from-values.json \
+                -domain=consul
+          volumeMounts:
+            - name: data
+              mountPath: /consul/data
+            - name: config
+              mountPath: /consul/config
+          ports:
+            - containerPort: 8500
+              hostPort: 8500
+              name: http
+            - containerPort: 8502
+              hostPort: 8502
+              name: grpc
+            - containerPort: 8301
+              protocol: "TCP"
+              name: serflan-tcp
+            - containerPort: 8301
+              protocol: "UDP"
+              name: serflan-udp
+            - containerPort: 8600
+              name: dns-tcp
+              protocol: "TCP"
+            - containerPort: 8600
+              name: dns-udp
+              protocol: "UDP"
+          readinessProbe:
+            # NOTE(mitchellh): when our HTTP status endpoints support the
+            # proper status codes, we should switch to that. This is temporary.
+            exec:
+              command:
+                - "/bin/sh"
+                - "-ec"
+                - |
+                  curl http://127.0.0.1:8500/v1/status/leader \
+                  2>/dev/null | grep -E '".+"'
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          securityContext:
+            null
+---
+# Source: consul/templates/server-statefulset.yaml
+# StatefulSet to run the actual Consul server cluster.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: consul-consul-server
+  namespace: consul
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+spec:
+  serviceName: consul-consul-server
+  podManagementPolicy: Parallel
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consul
+      chart: consul-helm
+      release: consul
+      component: server
+      hasDNS: "true"
+  template:
+    metadata:
+      labels:
+        app: consul
+        chart: consul-helm
+        release: consul
+        component: server
+        hasDNS: "true"
+      annotations:
+        "consul.hashicorp.com/connect-inject": "false"
+        "consul.hashicorp.com/config-checksum": 0cf4b7d92f0240ee03351a1a9bb8700756bdeffd9f316e243ca49714b722b286
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: consul
+                  release: "consul"
+                  component: server
+              topologyKey: kubernetes.io/hostname
+      terminationGracePeriodSeconds: 30
+      serviceAccountName: consul-consul-server
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 100
+      volumes:
+        - name: config
+          configMap:
+            name: consul-consul-server-config
+      containers:
+        - name: consul
+          image: "hashicorp/consul:1.11.3"
+          env:
+            - name: ADVERTISE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONSUL_DISABLE_PERM_MGMT
+              value: "true"
+            
+          command:
+            - "/bin/sh"
+            - "-ec"
+            - |
+              CONSUL_FULLNAME="consul-consul"
+              recursor_flags=""
+              for ip in $(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2)
+              do
+                 recursor_flags="$recursor_flags -recursor=$ip"
+              done
+
+              mkdir -p /consul/extra-config
+              cp /consul/config/extra-from-values.json /consul/extra-config/extra-from-values.json
+              [ -n "${HOST_IP}" ] && sed -Ei "s|HOST_IP|${HOST_IP?}|g" /consul/extra-config/extra-from-values.json
+              [ -n "${POD_IP}" ] && sed -Ei "s|POD_IP|${POD_IP?}|g" /consul/extra-config/extra-from-values.json
+              [ -n "${HOSTNAME}" ] && sed -Ei "s|HOSTNAME|${HOSTNAME?}|g" /consul/extra-config/extra-from-values.json
+
+              exec /usr/local/bin/docker-entrypoint.sh consul agent \
+                -advertise="${ADVERTISE_IP}" \
+                -bind=0.0.0.0 \
+                -bootstrap-expect=1 \
+                -client=0.0.0.0 \
+                -config-dir=/consul/config \
+                -datacenter=dc1 \
+                -data-dir=/consul/data \
+                -domain=consul \
+                -hcl="connect { enabled = true }" \
+                -ui \
+                -retry-join="${CONSUL_FULLNAME}-server-0.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc:8301" \
+                -serf-lan-port=8301 \
+                $recursor_flags \
+                -config-file=/consul/extra-config/extra-from-values.json \
+                -server
+          volumeMounts:
+            - name: data-consul
+              mountPath: /consul/data
+            - name: config
+              mountPath: /consul/config
+          ports:
+            - name: http
+              containerPort: 8500
+            - name: serflan-tcp
+              containerPort: 8301
+              protocol: "TCP"
+            - name: serflan-udp
+              containerPort: 8301
+              protocol: "UDP"
+            - name: serfwan-tcp
+              containerPort: 8302
+              protocol: "TCP"
+            - name: serfwan-udp
+              containerPort: 8302
+              protocol: "UDP"
+            - name: server
+              containerPort: 8300
+            - name: dns-tcp
+              containerPort: 8600
+              protocol: "TCP"
+            - name: dns-udp
+              containerPort: 8600
+              protocol: "UDP"
+          readinessProbe:
+            # NOTE(mitchellh): when our HTTP status endpoints support the
+            # proper status codes, we should switch to that. This is temporary.
+            exec:
+              command:
+                - "/bin/sh"
+                - "-ec"
+                - |
+                  curl http://127.0.0.1:8500/v1/status/leader \
+                  2>/dev/null | grep -E '".+"'
+            failureThreshold: 2
+            initialDelaySeconds: 5
+            periodSeconds: 3
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          securityContext:
+            null
+  volumeClaimTemplates:
+    - metadata:
+        name: data-consul
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: nfs
+
+NOTES:
+Thank you for installing HashiCorp Consul!
+
+Your release is named consul.
+
+To learn more about the release, run:
+
+  $ helm status consul
+  $ helm get all consul
+
+Consul on Kubernetes Documentation:
+https://www.consul.io/docs/platform/k8s
+
+Consul on Kubernetes CLI Reference:
+https://www.consul.io/docs/k8s/k8s-cli

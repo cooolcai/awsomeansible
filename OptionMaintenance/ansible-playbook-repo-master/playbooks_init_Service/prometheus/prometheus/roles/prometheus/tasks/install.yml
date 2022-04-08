@@ -1,0 +1,53 @@
+
+- name: add prometheus user
+  user:
+    name: prometheus
+    state: present
+
+- name: init other directiory
+  file:
+    path: "{{ prometheus_dir }}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+  loop:
+    - "{{ prometheus_src_dir }}"
+    - "{{ prometheus_data_dir }}"
+    - "{{ prometheus_conf_dir }}"
+    - "{{ prometheus_bin_dir }}"
+    - "{{ prometheus_logs_dir }}"
+  loop_control:
+    loop_var: prometheus_dir
+
+- name: upload prometheus src
+  copy:
+    src: "prometheus-{{ prometheus_version}}.linux-amd64.tar.gz"
+    dest: "{{ prometheus_src_dir }}/prometheus-{{ prometheus_version}}.linux-amd64.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install prometheus
+  shell: |
+    cd "{{ prometheus_src_dir }}"
+    tar xf "prometheus-{{ prometheus_version}}.linux-amd64.tar.gz"
+    cd "prometheus-{{ prometheus_version}}.linux-amd64"
+    
+
+- name: mv prometheus binary 
+  shell:
+    cmd: mv prometheus promtool "{{ prometheus_bin_dir }}"
+    chdir: "{{ prometheus_src_dir }}/prometheus-{{ prometheus_version}}.linux-amd64"
+
+- name: change prometheus dir ownership
+  file:
+    path: "{{ prometheus_install_dir }}"
+    state: directory
+    recurse: yes
+    owner: prometheus
+    group: prometheus
+
+- name: set systemctl
+  template:
+    src: prometheus.service.j2
+    dest: "{{ systemctl_dir }}/prometheus.service"
+    mode: '0644'

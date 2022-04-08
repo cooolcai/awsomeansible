@@ -1,0 +1,36 @@
+
+###安装jdk11
+- name: "1.设置源"
+  shell: curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+- name: "2.yum下载安装wegt"
+  shell: yum -y install wget
+- name: "3.yum下载安装jdk-11"
+  shell: yum -y install java-11-openjdk
+- name: "4.设置jdk-11环境变量"
+  shell: echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.14.1.1-1.el7_9.x86_64 >> /etc/profile &&
+    echo JRE_HOME=$JAVA_HOME/jre >> /etc/profile &&
+    echo CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib >> /etc/profile &&
+    echo PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin >> /etc/profile &&
+    echo export JAVA_HOME JRE_HOME CLASS_PATH PATH >> /etc/profile &&
+    source /etc/profile
+
+###安装neo4j
+- name: "1.下载安装包"
+  shell: curl -o /data/cloud1/neo4j-community-4.4.3.tar.gz --create-dirs http://dist.neo4j.org/neo4j-community-4.4.3-unix.tar.gz
+- name: "2.解压安装包"
+  shell: tar zxvf /data/cloud1/neo4j-community-4.4.3.tar.gz -C /data/cloud1/
+- name: "3.修改配置文件可ip：7474访问"
+  shell: echo dbms.default_listen_address=0.0.0.0 >>/data/cloud1/neo4j-community-4.4.3/conf/neo4j.conf
+- name: "4.设置neo4j环境变量1"
+  shell:
+    echo NEO4J_HOME=/data/cloud1/neo4j-community-4.4.3 >> /etc/profile
+- name: "5.设置neo4j环境变量2"
+  shell:
+    echo "PATH=$PATH:$NEO4J_HOME/bin" >> /etc/profile
+- name: "6.设置neo4j环境变量3"
+  shell:
+    echo export NEO4J_HOME PATH >> /etc/profile
+- name: "7.update环境变量"
+  shell:
+    source /etc/profile
+

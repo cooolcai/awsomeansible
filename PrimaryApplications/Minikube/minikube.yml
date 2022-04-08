@@ -1,0 +1,4 @@
+---
+- hosts: minikube_host
+  roles:
+    - role: minikube

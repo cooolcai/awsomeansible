@@ -1,0 +1,6 @@
+---
+- hosts: kubeHaHostsWithPassword
+  roles:
+    - role: OptionMaintenance/Docker/docker/roles/docker
+    - role: PrimaryApplications/K8S/kube-ha/roles/kube-ha
+

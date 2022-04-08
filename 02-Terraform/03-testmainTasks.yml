@@ -1,0 +1,143 @@
+---
+#- hosts: terraformServer
+#  roles:
+#    - role: OptionMaintenance/Terraform/newCluster/roles/newCluster
+#
+## 升级所有节点内核
+#- hosts: k8s-all
+#  gather_facts: false
+#  tasks:
+#    - name: "设置代理服务器环境变量"
+#      set_fact:
+#        proxy_env:
+#          http_proxy: "{{ http_proxy | default ('') }}"
+#          HTTP_PROXY: "{{ http_proxy | default ('') }}"
+#          https_proxy: "{{ https_proxy | default ('') }}"
+#          HTTPS_PROXY: "{{ https_proxy | default ('') }}"
+#          no_proxy: "{{ no_proxy | default ('') }}"
+#          NO_PROXY: "{{ no_proxy | default ('') }}"
+#      no_log: true
+#
+#- hosts:
+#    - k8s-all
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/prepare/base
+#    - PrimaryApplications/K8S-self/roles/prepare/kernel
+#  environment: "{{ proxy_env }}"
+#
+## 升级所有节点内核
+#- hosts: k8s-all
+#  gather_facts: false
+#  tasks:
+#    - name: "重启服务器，此处会产生错误，可忽略"
+#      shell: |
+#        reboot
+#      ignore_errors: yes
+#      ignore_unreachable: yes
+#
+#    - name: "等待60秒时间，等待虚拟机重启"
+#      wait_for:
+#        timeout: 60
+#      delegate_to: localhost
+#
+#    - name: "60秒后执行测试命令"
+#      shell: |
+#        ifconfig
+#
+## 校验节点软件系统及硬件系统、安装必要基础组件、docker、kubeadm、kubelet、kubectl
+#- hosts:
+#    - k8s-all
+#  gather_facts: false
+#  tasks:
+#    - name: "设置代理服务器环境变量"
+#      set_fact:
+#        proxy_env:
+#          http_proxy: "{{ http_proxy | default ('') }}"
+#          HTTP_PROXY: "{{ http_proxy | default ('') }}"
+#          https_proxy: "{{ https_proxy | default ('') }}"
+#          HTTPS_PROXY: "{{ https_proxy | default ('') }}"
+#          no_proxy: "{{ no_proxy | default ('') }}"
+#          NO_PROXY: "{{ no_proxy | default ('') }}"
+#      no_log: true
+#
+#- hosts:
+#    - k8s-all
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/prepare/base
+#    - PrimaryApplications/K8S-self/roles/prepare/container-engine
+#    - PrimaryApplications/K8S-self/roles/prepare/kubernetes
+#  environment: "{{ proxy_env }}"
+#
+## 进行 apiserver 负载均衡
+#- hosts:
+#    - k8s-all
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/load-balancer
+#
+#- hosts:
+#    - k8s-all
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/chrony
+#
+## 安装 etcd，并分发etcd证书到master节点
+#- hosts:
+#    - etcd
+#    - new-etcd
+#    - kube-master
+#    - new-master
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/etcd/certificates
+#    - PrimaryApplications/K8S-self/roles/etcd/install
+#
+## 生成 kubernetes 所需证书证书
+#- hosts:
+#    - kube-master
+#    - new-master
+#    - kube-worker
+#    - new-worker
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/kube-certificates
+#
+## 初始化master节点
+#- hosts:
+#    - kube-master
+#    - new-master
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/kube-master
+#
+## 初始化worker节点
+#- hosts:
+#    - kube-worker
+#    - new-worker
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/kube-worker
+#
+## 标记各节点角色
+#- hosts:
+#    - kube-master
+#    - kube-worker
+#    - new-master
+#    - new-worker
+#  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/post
+
+# 安装基础插件
+- hosts:
+    - kube-master[0]
+  roles:
+#    - PrimaryApplications/K8S-self/roles/prepare/variables
+#    - PrimaryApplications/K8S-self/roles/plugins/network-plugins
+##    - PrimaryApplications/K8S-self/roles/plugins/ingress-controller
+#    - PrimaryApplications/K8S-self/roles/plugins/metrics-server
+#    - PrimaryApplications/K8S-self/roles/plugins/kubernetes-dashboard
+#    - PrimaryApplications/K8S-self/roles/plugins/cert-manager
+    - PrimaryApplications/K8S-self/roles/dashboard-token

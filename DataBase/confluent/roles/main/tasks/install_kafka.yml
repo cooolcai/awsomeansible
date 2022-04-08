@@ -1,0 +1,47 @@
+
+- name: init directiory
+  file:
+    path: "{{ confluent_dir }}"
+    state: directory
+  loop:
+    - "{{ confluent_src_dir }}"
+    - "{{ confluent_install_dir }}"
+  loop_control:
+    loop_var: confluent_dir
+
+- name: upload confluent src
+  copy:
+    src: "confluent-{{ confluent_version}}.tar.gz"
+    dest: "{{ confluent_src_dir }}/confluent-{{ confluent_version}}.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install confluent
+  shell: |
+    cd "{{ confluent_src_dir }}"
+    tar xf confluent-"{{ confluent_version}}.tar.gz"
+    mv confluent"-{{ confluent_version}}" /usr/local/
+
+- name: init other directiory
+  file:
+    path: "{{ kafka_other_dir }}"
+    state: directory
+  loop:
+    - "{{ kafka_data_dir }}"
+    - "{{ kafka_logs_dir }}"
+    - "{{ zk_data_dir }}"
+    - "{{ zk_logs_dir }}"
+  loop_control:
+    loop_var: kafka_other_dir
+
+- name: upload debezium-connector-mysql-1.8.1.tar.gz
+  copy:
+    src: "debezium-connector-mysql-1.8.1.tar.gz"
+    dest: "{{confluent_install_dir}}/share/java/debezium-connector-mysql-1.8.1.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install debezium-connector-mysql-1.8.1.tar.gz
+  shell: |
+    cd "{{confluent_install_dir}}/share/java"
+    tar xf debezium-connector-mysql-1.8.1.tar.gz

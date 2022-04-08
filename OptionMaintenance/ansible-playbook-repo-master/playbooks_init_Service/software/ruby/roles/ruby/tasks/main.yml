@@ -1,0 +1,31 @@
+---
+- name: init directiory
+  file:
+    path: "{{ ruby_dir }}"
+    state: directory
+  loop:
+    - "{{ ruby_src_dir }}"
+  loop_control:
+    loop_var: ruby_dir
+
+
+- name: upload ruby src
+  copy:
+    src: "ruby-{{ ruby_version}}.tar.gz"
+    dest: "{{ ruby_src_dir }}/ruby-{{ ruby_version}}.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install ruby
+  shell: |
+    cd "{{ ruby_src_dir }}"
+    tar xf ruby-"{{ ruby_version}}.tar.gz"
+    cd ruby-"{{ ruby_version}}"
+    ./configure -prefix=/usr/local/ruby-{{ ruby_version }}
+    make clean
+    make -j`grep -c processor /proc/cpuinfo`
+    make install
+    cp /usr/local/ruby-{{ ruby_version }}/bin/ruby /usr/local/bin/
+    cp /usr/local/ruby-{{ ruby_version }}/bin/gem /usr/local/bin/
+    gem sources --remove https://rubygems.org/
+    gem sources -a {{ ruby_source }}

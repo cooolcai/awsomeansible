@@ -1,0 +1,70 @@
+---
+- name: 检查本地是否已有yum源
+  stat:
+    path: /etc/yum.repos.d/base.repo
+  register: repo_file
+
+- block:
+    - name: 备份原有 yum 源
+      shell: mv /etc/yum.repos.d /etc/yum.repos.d.orig.$(date '+%Y%m%dT%H%M%S')
+      ignore_errors: true
+
+    - name: 创建yum源相关目录
+      file:
+        path: /etc/yum.repos.d
+        state: directory
+
+    - name: 添加 base 仓库
+      yum_repository:
+        name: base
+        description: Custom Repository
+        baseurl: "{{ local_yum_repo }}/centos/$releasever/os/$basearch/"
+        enabled: yes
+        gpgcheck: no
+        state: present
+
+    - name: 添加 epel 仓库
+      yum_repository:
+        name: epel
+        file: epel
+        description: Extra Packages for Enterprise Linux $releasever - $basearch
+        baseurl: "{{ local_yum_repo }}/epel/$releasever/os/$basearch/"
+        enabled: yes
+        gpgcheck: no
+        state: present
+
+  when: repo_file.stat.exists == false and local_yum_repo is defined and local_yum_repo != None
+
+- name: 检查本地是否存在mysql安装包
+  stat:
+    path: "/media/{{ mysql57_file }}"
+  register: mysql_file
+
+- name: 本地复制mysql安装包
+  copy:
+    src: "/root/file/{{ mysql57_file }}"
+    dest: /media
+    mode: "0755"
+    remote_src: no
+  when: mysql_file.stat.exists == false
+
+- name: 复制mysql配置文件
+  copy:
+    src: syc-now-my.cnf
+    dest: /media/my.cnf
+    force: yes
+    mode: "0755"
+    remote_src: no
+
+- name: 本地复制mysql安装脚本python
+  copy:
+    src: 11-mysql57-install-ini.py
+    dest: /media
+    mode: "0755"
+    remote_src: no
+
+- name: 执行安装脚本
+  shell: |
+    cd /media
+    python 11-mysql57-install-ini.py
+

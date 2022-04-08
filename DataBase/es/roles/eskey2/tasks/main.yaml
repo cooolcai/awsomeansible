@@ -1,0 +1,17 @@
+###移动证书
+- name: "1、移动配置文件夹1"
+  copy:
+    src: "/etc/ansible/awsomeansible/DataBase/es/roles/eskey1/files/10.42.40.11/usr/local/es/elasticsearch-7.6.2/elastic-stack-ca.p12"
+    dest: "/usr/local/es/elasticsearch-7.6.2/config/"
+    owner: es
+    mode: 777
+- name: "2、移动配置文件夹2"
+  copy:
+    src: "/etc/ansible/awsomeansible/DataBase/es/roles/eskey1/files/10.42.40.11/usr/local/es/elasticsearch-7.6.2/elastic-certificates.p12"
+    dest: "/usr/local/es/elasticsearch-7.6.2/config/"
+    owner: es
+    mode: 777
+- name: "设置权限"
+  shell: chown -R es:es /usr/local/es/elasticsearch-7.6.2/config/elastic-certificates.p12
+- name: "设置权限"
+  shell: chown -R es:es /usr/local/es/elasticsearch-7.6.2/config/elastic-stack-ca.p12

@@ -1,0 +1,3 @@
+# gemsoft
+gemsoft_src_dir: "{{ src_dir }}/gemsoft-{{ gem_soft_version }}"
+gemsoft_source: "https://mirrors.aliyun.com/gemsoftgems/"

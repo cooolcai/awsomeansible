@@ -1,0 +1,8 @@
+yum 安装docker，使用ansible联网安装
+
+拷贝kubeadm-ha镜像
+
+load上述镜像
+
+运行kubeadm-ha容器
+

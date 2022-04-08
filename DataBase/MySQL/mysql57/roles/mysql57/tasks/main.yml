@@ -1,0 +1,80 @@
+---
+- name: Install libaio
+  yum:
+    name: libaio
+    state: present
+
+- name: Clean MariaDB
+  yum:
+    name: "{{ mariadb }}"
+    state: absent
+  loop:
+    - "mariadb-common"
+    - "mariadb-libs"
+    - "mariadb-config"
+  loop_control:
+    loop_var: mariadb
+
+- name: Clean Directory
+  file:
+      path: "{{ mysql57_clean_dir }}"
+      state: absent
+  loop:
+    - "{{ mysql57_data_dir }}"
+    - "{{ mysql57_src_dir }}"
+    - "{{ mysql57_install_dir }}"
+  loop_control:
+    loop_var: mysql57_clean_dir
+
+- name: Init MySQL User
+  user:
+      name: mysql
+      state: present
+
+- name: Init Directory
+  file:
+      path: "{{ mysql57_dir }}"
+      state: directory 
+      owner: mysql
+      group: mysql
+  loop:
+    - "{{ mysql57_data_dir }}"
+    - "{{ mysql57_src_dir }}"
+  loop_control:
+    loop_var: mysql57_dir
+
+- name: Copy MySQL binary
+  copy:
+    dest: "{{ mysql57_src_dir }}/{{ mysql57_version }}.tar.gz"
+    src:  "{{ mysql57_version }}.tar.gz"
+    remote_src: no 
+    mode: "0755"
+
+- name: Install MySQL57
+  shell: |
+    cd "{{ mysql57_src_dir }}"
+    tar xf "{{ mysql57_version }}.tar.gz"
+    mv "{{ mysql57_src_dir }}/{{ mysql57_version }}" "{{ mysql57_install_dir }}"
+    chown -R mysql.mysql "{{ mysql57_install_dir }}"
+    cp "{{ mysql57_install_dir }}"/support-files/mysql.server /etc/init.d/
+
+- name: Upload my.cnf
+  copy:
+      dest: /etc/my.cnf
+      src: my.cnf
+      remote_src: no
+
+- name: Upload MySQL Init Datadir
+  copy:
+      dest: "{{ mysql57_src_dir }}/mysql57_data.tar.gz"
+      src: mysql57_data.tar.gz
+
+- name: Unzip MySQL Init Datadir
+  shell: |
+    cd "{{ mysql57_src_dir }}"
+    tar xf mysql57_data.tar.gz
+    mv mysql3306 "{{ data_dir }}"
+    chown -R mysql.mysql "{{ mysql57_data_dir }}"
+
+- name: Start MySQL 
+  shell: /etc/init.d/mysql.server start

@@ -1,0 +1,4 @@
+---
+- hosts: python_host
+  roles:
+    - role: python

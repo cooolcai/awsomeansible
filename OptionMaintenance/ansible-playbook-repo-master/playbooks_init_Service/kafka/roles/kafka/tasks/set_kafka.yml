@@ -1,0 +1,8 @@
+---
+- name: init 2.4 conf
+  template:
+    src: "server.properties-{{ scala_version }}-{{ kafka_version }}.j2"
+    dest: "{{ kafka_conf_dir }}/server.properties"
+    mode: '0644'
+    remote_src: no
+  when:  kafka_version[0:3] == "2.4"

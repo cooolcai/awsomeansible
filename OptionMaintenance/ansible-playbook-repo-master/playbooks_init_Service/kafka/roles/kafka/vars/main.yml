@@ -1,0 +1,15 @@
+#### kafka ####
+# kafka 源文件目录
+kafka_src_dir: "{{ src_dir }}/kafka_{{ scala_version }}-{{ kafka_version }}"
+# kafka 安装变量
+kafka_install_dir: '/usr/local/kafka_{{ scala_version }}-{{ kafka_version }}'
+kafka_data_dir: "{{ kafka_install_dir}}/data"
+kafka_conf_dir: "{{ kafka_install_dir}}/config"
+kafka_bin_dir: "{{ kafka_install_dir}}/bin"
+kafka_logs_dir: "{{ kafka_install_dir}}/logs"
+kafka_port: 9092
+
+kafka_hostip: "{{ ansible_host }}"
+kafka_version: "2.4.1"
+scala_version: "2.11"
+kafka_remote_down: "https://repo.huaweicloud.com/apache/kafka/{{ kafka_version }}/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"

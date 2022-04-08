@@ -1,0 +1,40 @@
+###安装es
+
+- name: "创建es安装位置"
+  shell: mkdir -p /usr/local/es/
+- name: "下载es安装包"
+  shell: wget -P /usr/local/es/ https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-linux-x86_64.tar.gz
+- name: "解压es安装包"
+  shell: tar -zxvf /usr/local/es/elasticsearch-7.6.2-linux-x86_64.tar.gz -C /usr/local/es/
+- name: "设置es用户权限"
+  shell: chown -R es:es /usr/local/es/elasticsearch-7.6.2
+- name: "设置es用户拥有内存大小"
+  shell: echo vm.max_map_count = 655360 >>/etc/sysctl.conf
+- name: "让内核参数立即生效;"
+  shell: sysctl -p
+- name: "设置内存大小"
+  shell: echo '* soft nofile 65536' >>/etc/security/limits.conf
+- name: "设置内存大小"
+  shell: echo '* hard nofile 131072' >>/etc/security/limits.conf
+- name: "设置内存大小"
+  shell: echo '* soft nproc 4096' >>/etc/security/limits.conf
+- name: "设置内存大小"
+  shell: echo '* hard nproc 8192' >>/etc/security/limits.conf
+- name: "设置内存大小"
+  shell: echo '* soft memlock unlimited' >>/etc/security/limits.conf
+- name: "设置内存大小"
+  shell: echo '* hard memlock unlimited' >>/etc/security/limits.conf
+- name: "创建data文件夹"
+  shell: mkdir -p /usr/local/es/data
+- name: "赋予data权限"
+  shell: chown -R es:es /usr/local/es/data
+- name: "创建log文件夹"
+  shell: mkdir -p /usr/local/es/log
+- name: "赋予log权限"
+  shell: chown -R es:es /usr/local/es/log
+- name: "移动配置文件夹"
+  copy:
+    src: "/etc/ansible/awsomeansible/DataBase/es/roles/es01/files/elasticsearch.yml"
+    dest: "/usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml"
+    owner: es
+    mode: 777

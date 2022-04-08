@@ -1,0 +1,6 @@
+#### Nginx ####
+# Tnginx 源文件目录
+tnginx_src_dir: "{{ src_dir }}/tnginx-{{ tnginx_version }}"
+tnginx_conf_dir: "/usr/local/tnginx-{{tnginx_version}}/conf/"
+# Tnginx 安装变量
+tnginx_install_dir: '/usr/local/tnginx-{{ tnginx_version }}'

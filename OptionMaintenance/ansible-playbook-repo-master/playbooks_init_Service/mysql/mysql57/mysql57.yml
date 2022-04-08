@@ -1,0 +1,4 @@
+---
+- hosts: mysql57_host
+  roles:
+    - role: mysql57

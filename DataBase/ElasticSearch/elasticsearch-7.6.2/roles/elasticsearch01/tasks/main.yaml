@@ -1,0 +1,55 @@
+###安装jdk11
+- name: "1.设置源"
+  shell: curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+- name: "2.yum下载安装wegt"
+  shell: yum -y install wget
+- name: "3.yum下载安装jdk-11"
+  shell: yum -y install java-11-openjdk
+- name: "4.设置jdk-11环境变量"
+  shell: echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.14.1.1-1.el7_9.x86_64 >> /etc/profile &&
+    echo JRE_HOME=$JAVA_HOME/jre >> /etc/profile &&
+    echo CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib >> /etc/profile &&
+    echo PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin >> /etc/profile &&
+    echo export JAVA_HOME JRE_HOME CLASS_PATH PATH >> /etc/profile &&
+    source /etc/profile
+
+###安装es
+- name: "创建es安装位置"
+  shell: mkdir -p /usr/local/es/
+- name: "1、下载es安装包"
+  shell: wget -P /usr/local/es/ https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-linux-x86_64.tar.gz
+- name: "2、解压es安装包"
+  shell: tar -zxvf /usr/local/es/elasticsearch-7.6.2-linux-x86_64.tar.gz -C /usr/local/es/
+- name: "3、创建es用户"
+  shell: useradd es
+- name: "4、设置es密码"
+  shell: echo "ilw@2021a" | passwd --stdin es
+- name: "5、设置es用户权限"
+  shell: chown -R es:es /usr/local/es/elasticsearch-7.6.2
+- name: "6、设置es用户拥有内存大小"
+  shell: echo vm.max_map_count = 655360 >>/etc/sysctl.conf
+- name: "6-1、让内核参数立即生效;"
+  shell: sysctl -p
+- name: "7、设置内存大小"
+  shell: echo '* soft nofile 65536' >>/etc/security/limits.conf
+- name: "7-1、设置内存大小"
+  shell: echo '* hard nofile 65536' >>/etc/security/limits.conf
+- name: "8、创建data文件夹"
+  shell: mkdir -p /usr/local/es/data
+- name: "8-1、赋予data权限"
+  shell: chown -R es:es /usr/local/es/data
+- name: "9、创建log文件夹"
+  shell: mkdir -p /usr/local/es/log
+- name: "9-1、赋予log权限"
+  shell: chown -R es:es /usr/local/es/log
+- name: "10、移动配置文件夹"
+  copy:
+    src: "/etc/ansible/awsomeansible/DataBase/elasticsearch/elasticsearch-7.6.2/roles/elasticsearch01/files/elasticsearch.yml"
+    dest: "/usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml"
+    owner: root
+    mode: 777
+
+
+
+
+

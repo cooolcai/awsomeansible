@@ -1,0 +1,20 @@
+---
+- name: Backup yum conf
+  shell: /bin/mv /etc/yum.repos.d/CentOS-* /etc/yum.repos.d/old/
+  when: "'yum_centos_yes' not in op_tag_results"
+  
+- name: Set aliyun centos yum.conf
+  copy:
+    src: CentOS-Base.repo
+    dest: /etc/yum.repos.d/CentOS-Base.repo
+    mode: "0755"
+    remote_src: no
+  when: "'yum_centos_yes' not in op_tag_results"
+
+- name: Set aliyun epel yum.conf
+  copy:
+    src: epel.repo
+    dest: /etc/yum.repos.d/epel.repo
+    mode: "0755"
+    remote_src: no
+  when: "'yum_epel_yes' not in op_tag_results"

@@ -1,0 +1,5 @@
+---
+- hosts: consul39_host
+  roles:
+    - role: consul39
+

@@ -1,0 +1,11 @@
+---
+- name: reload sysctl
+  shell: |
+    /usr/sbin/sysctl -p
+    echo '#docker_init' >> /etc/sysctl.conf
+
+- name: restart docker service
+  shell: |
+    systemctl daemon-reload
+    systemctl restart docker
+    systemctl enable docker

@@ -1,0 +1,4 @@
+---
+- hosts: confluent_host
+  roles:
+    - role: main

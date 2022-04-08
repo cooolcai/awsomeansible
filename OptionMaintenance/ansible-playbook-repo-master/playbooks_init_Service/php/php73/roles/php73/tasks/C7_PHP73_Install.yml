@@ -1,0 +1,65 @@
+---
+- name: Upload php src
+  copy:
+    src: "{{ php73_version}}.tar.gz"
+    dest: "{{ php73_src_dir }}/{{ php73_version}}.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: Install PHP73 Exclude GD
+  shell: |
+    cd "{{ php73_src_dir }}"
+    tar xf "{{ php73_version}}.tar.gz"
+    cd "{{ php73_version}}"
+    make clean
+    ./configure --prefix="{{ php73_install_dir }}" \
+    --with-config-file-path="{{ php73_install_dir }}"/etc \
+    --disable-debug   \
+    --disable-fileinfo   \
+    --disable-rpath   \
+    --enable-bcmath   \
+    --enable-cli   \
+    --enable-ctype   \
+    --enable-exif   \
+    --enable-fpm   \
+    --enable-ftp   \
+    --enable-inline-optimization   \
+    --enable-mbregex   \
+    --enable-mbstring   \
+    --enable-opcache   \
+    --enable-pcntl   \
+    --enable-pdo   \
+    --enable-session   \
+    --enable-shared   \
+    --enable-shmop   \
+    --enable-soap   \
+    --enable-sockets   \
+    --enable-sysvsem   \
+    --enable-xml   \
+    --with-curl   \
+    --with-gettext   \
+    --with-gmp   \
+    --with-iconv   \
+    --with-mhash   \
+    --with-mysqli=mysqlnd   \
+    --with-openssl   \
+    --without-gdbm   \
+    --with-pdo-mysql=mysqlnd   \
+    --with-pear   \
+    --with-tidy   \
+    --with-zlib \
+    --with-ldap=shared \
+    --with-xmlrpc 
+    make -j`grep -c processor /proc/cpuinfo`
+    make install   
+
+- name: Init Session Directiory
+  file:
+    path: "{{ php74_session_dir }}"
+    state: directory
+    mode: 0777
+  loop:
+    - "{{ php74_install_dir }}/lib/php/session"
+  loop_control:
+    loop_var: php74_session_dir
+    

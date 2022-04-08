@@ -1,0 +1,61 @@
+---
+- name: start zookeeper
+  shell: "{{ confluent_bin_dir }}/zookeeper-server-start -daemon {{ zk_conf_dir }}/zoo.cfg"
+  tags: 
+    - start_zk
+    - start_confluent
+
+- name: stop zookeeper
+  shell: "{{ confluent_bin_dir }}/zookeeper-server-stop"
+  tags: 
+    - stop_zk
+    - stop_confluent
+  
+- name: start kafka
+  shell: "nohup {{ confluent_bin_dir }}/kafka-server-start -daemon {{ kafka_conf_dir }}/server.properties &"
+  tags: 
+    - start_kafka
+    - start_confluent
+
+- name: stop kafka
+  shell: "{{ confluent_bin_dir }}/kafka-server-stop"
+  tags: 
+    - stop_kafka
+    - stop_confluent
+
+- name: start schema-registry
+  shell: "nohup {{ confluent_bin_dir }}/schema-registry-start -daemon {{ confluent_etc_dir }}/schema-registry/schema-registry.properties &"
+  tags: 
+    - start_schema_registry
+    - start_confluent
+
+- name: stop schema_registry
+  shell: "{{ confluent_bin_dir }}/schema-registry-stop"
+  tags: 
+    - stop_schema_registry
+    - stop_confluent
+
+- name: start kafka-rest-start
+  shell: "nohup {{ confluent_bin_dir }}/kafka-rest-start {{ confluent_etc_dir }}/kafka-rest/kafka-rest.properties  >/dev/null 2>&1 &"
+  tags: 
+    - start_kafka_rest
+    - start_confluent
+
+- name: stop kafka-rest
+  shell: "{{ confluent_bin_dir }}/kafka-rest-stop"
+  tags: 
+    - stop_kafka_rest
+    - stop_confluent
+    
+    
+- name: start kafka-connectors
+  shell: "nohup {{ confluent_bin_dir }}/connect-distributed -daemon {{ confluent_etc_dir }}/schema-registry/connect-avro-distributed.properties  >/dev/null 2>&1 &"
+  tags: 
+    - start_kafka_connect
+    - start_confluent
+
+- name: stop kafka-connectors
+  shell: "jps |grep ConnectDistributed |awk '{ print $1 }' | xargs  kill -9"
+  tags: 
+    - stop_kafka_connect
+    - stop_confluent

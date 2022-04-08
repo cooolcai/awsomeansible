@@ -1,0 +1,22 @@
+---
+- name: Upload php-fpm.conf
+  template:
+    src: php-fpm.conf.j2
+    dest: "{{ php74_conf_dir }}/php-fpm.conf"
+    owner: "{{ php74_owner }}"
+    group: "{{ php74_group }}"
+    mode: '0755'
+
+- name: Set php boot up
+  template:
+    src: php-fpm.j2
+    dest: /etc/init.d/php-fpm-74
+    mode: '0755'
+
+- name: Upload php.ini
+  template:
+    src: php.ini.j2
+    dest: "{{ php74_conf_dir }}/php.ini"
+    owner: "{{ php74_owner }}"
+    group: "{{ php74_group }}"
+    mode: '0755'

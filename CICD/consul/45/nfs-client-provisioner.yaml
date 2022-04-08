@@ -1,0 +1,36 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-client-provisioner
+  namespace: consul
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: local.harbor/test/nfs-client-provisioner:1.0.0
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: mynfs                 # 根据自己的名称来修改，与 storageclass.yaml 中的 provisioner 名字一致
+            - name: NFS_SERVER
+              value: 10.42.40.49        # NFS服务器所在的 ip
+            - name: NFS_PATH
+              value: /export/consul_data_40.45                 # 共享存储目录
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 10.42.40.49          # NFS服务器所在的 ip
+            path: /export/consul_data_40.45                   # 共享存储目录

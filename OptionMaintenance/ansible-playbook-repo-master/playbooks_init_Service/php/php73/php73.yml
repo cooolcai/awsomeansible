@@ -1,0 +1,4 @@
+---
+- hosts: php73_host
+  roles:
+    - role: php73

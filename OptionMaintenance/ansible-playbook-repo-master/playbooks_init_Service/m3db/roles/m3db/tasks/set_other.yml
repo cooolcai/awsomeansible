@@ -1,0 +1,27 @@
+---
+
+- name: start m3db
+  service:
+    name: m3db
+    state: started
+  tags: start_m3db
+
+- name: stop m3db
+  service:
+    name: m3db
+    state: stopped
+  tags: stop_m3db
+
+- name: clean test data
+  shell: |
+    systemctl stop m3db
+    rm -rf {{ m3db_data_dir }}/*
+  tags: clean_test_data
+  ignore_errors: True
+
+- name: clean m3db
+  shell: |
+    systemctl stop m3db
+    rm -rf {{ m3db_install_dir }}
+  tags: clean_m3db
+  ignore_errors: True

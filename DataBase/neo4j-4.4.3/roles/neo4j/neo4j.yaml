@@ -1,0 +1,25 @@
+- hosts: neo4j
+  remote_user: root
+  vars:
+    name: "neo4j"
+    install_path: /data/cloud1
+  tasks:
+    - name: "1.下载安装包"
+      shell: curl -o /data/cloud1/neo4j-community-4.4.3.tar.gz --create-dirs http://dist.neo4j.org/neo4j-community-4.4.3-unix.tar.gz
+    - name: "2.解压安装包"
+      shell: tar zxvf /data/cloud1/neo4j-community-4.4.3.tar.gz -C /data/cloud1/
+    - name: "3.修改配置文件可ip：7474访问"
+      shell: echo dbms.default_listen_address=0.0.0.0 >>/data/cloud1/neo4j-community-4.4.3/conf/neo4j.conf
+    - name: "4.设置neo4j环境变量1"
+      shell:
+        echo NEO4J_HOME=/data/cloud1/neo4j-community-4.4.3 >> /etc/profile
+    - name: "5.设置neo4j环境变量2"
+      shell:
+        echo PATH=$PATH:$NEO4J_HOME/bin >> /etc/profile
+    - name: "6.设置neo4j环境变量3"
+      shell:
+        echo export NEO4J_HOME PATH >> /etc/profile
+    - name: "7.update环境变量"
+      shell:
+        source /etc/profile
+

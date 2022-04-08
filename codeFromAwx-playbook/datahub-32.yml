@@ -1,0 +1,5 @@
+- hosts: "datahub-32"
+  gather_facts: true
+  remote_user: root
+  roles:
+    - datahub-32

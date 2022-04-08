@@ -1,0 +1,17 @@
+- block:
+  - name: "copy zabbix_agent to clients"
+    copy:
+      src=/etc/ansible/ansible2/zabbix/agent/roles/install_zabbix_agent/files/zabbix-agent-5.0.20-1.el7.x86_64.rpm
+      dest=/tmp
+  - name: "yum install zabbix_agent"
+    yum:
+      name: /tmp/zabbix-agent-5.0.20-1.el7.x86_64.rpm
+      state: present
+  - name: "copy zabbix_agentd.conf"
+    copy:
+      src=/etc/ansible/ansible2/zabbix/agent/roles/install_zabbix_agent/files/zabbix_agentd.conf
+      dest=/etc/zabbix/zabbix_agentd.conf
+  - name: disabled selinux
+    shell: /usr/sbin/setenforce 0
+  - name: disabled selinux
+    shell: sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config

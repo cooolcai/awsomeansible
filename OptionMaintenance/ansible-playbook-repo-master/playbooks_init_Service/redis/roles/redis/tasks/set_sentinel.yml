@@ -1,0 +1,7 @@
+---
+- name: init sentinel conf
+  template:
+    src: sentinel.conf.j2
+    dest: "{{ redis_conf_dir }}/sentinel-{{ sentinel_port }}.conf"
+    mode: '0644'
+  tags: set_sentinel

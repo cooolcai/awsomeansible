@@ -1,0 +1,29 @@
+---
+- include_tasks: Set_DNS.yml
+
+- include_tasks: C6_{{ item }}.yml
+  with_items:
+    - Judge_Optimized
+    - Add_Yum_Repo
+    - Yum_Basic_Package
+    - Disable_Service
+    - System_Optimization
+  when:
+    - ansible_distribution_major_version == "6"
+
+- include_tasks: C7_{{ item }}.yml
+  with_items:
+    - Clean_Optimiz_Tags
+    - Judge_Optimized
+    - Add_Yum_Repo
+    - Yum_Basic_Package
+    - System_Optimization
+    - Disable_Service
+  when:
+    - ansible_distribution_major_version == "7"
+
+- include_tasks: Init_Directory.yml
+# 补充设置主机名
+#- name:  Install Zabbix
+# group_var
+#修改主机名

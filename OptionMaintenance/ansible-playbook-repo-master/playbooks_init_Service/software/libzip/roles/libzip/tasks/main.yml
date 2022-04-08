@@ -1,0 +1,27 @@
+---
+- name: init directiory
+  file:
+    path: "{{ libzip_dir }}"
+    state: directory
+  loop:
+    - "{{ libzip_src_dir }}"
+  loop_control:
+    loop_var: libzip_dir
+
+
+- name: upload libzip src
+  copy:
+    src: "libzip-{{ libzip_version}}.tar.gz"
+    dest: "{{ libzip_src_dir }}/libzip-{{ libzip_version}}.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install libzip
+  shell: |
+    cd "{{ libzip_src_dir }}"
+    tar xf libzip-"{{ libzip_version}}.tar.gz"
+    cd libzip-"{{ libzip_version}}"
+    rm build -rf
+    mkdir build && cd build && cmake .. 
+    make -j`grep -c processor /proc/cpuinfo`
+    make install

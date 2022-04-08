@@ -1,0 +1,12 @@
+---
+- name: clean go
+  file:
+    path: "{{ go_install_dir }}"
+    state: absent
+  tags: clean_install
+
+- name: clean go path
+  file:
+    path: /etc/profile.d/go.sh
+    state: absent
+  tags: clean_install

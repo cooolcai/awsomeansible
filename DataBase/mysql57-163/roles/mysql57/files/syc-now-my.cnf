@@ -1,0 +1,33 @@
+[mysqld]
+datadir=/data/mysql-data
+socket=/var/lib/mysql/mysql.sock
+
+symbolic-links=0
+
+optimizer_switch='derived_merge=off'
+
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+max_connections=1024
+
+character_set_server=utf8
+init_connect='SET NAMES utf8'
+port=5575
+lower_case_table_names=1
+
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+server-id = 91136
+
+log_bin = mysql-bin
+binlog_format = row
+binlog_row_image = full
+
+expire_logs_days = 10
+
+innodb_buffer_pool_size = 2147483648
+max_allowed_packet = 268435456
+
+
+

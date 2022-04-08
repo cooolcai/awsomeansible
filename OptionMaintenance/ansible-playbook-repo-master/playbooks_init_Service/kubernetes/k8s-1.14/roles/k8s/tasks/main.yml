@@ -1,0 +1,8 @@
+---
+- include_tasks: C7_{{ item }}.yml
+  with_items:
+    - Add_Yum_Repo
+    - Set_Docker_Basic_Config
+  when:
+    - ansible_distribution_major_version == "7"
+    

@@ -1,0 +1,19 @@
+- block:
+  - name: mkdir log file
+    shell: mkdir -p /var/log/zabbix
+  - name: chmod for log
+    shell: chmod -R 755 /var/log/zabbix
+  - name: chown for log
+    shell: chown -R zabbix. /var/log/zabbix
+  - name: chmod for zabbix
+    shell: chmod -R 755 /etc/zabbix
+  - name: chown for zabbix
+    shell: chown -R zabbix. /etc/zabbix
+  - name: change server ip
+    shell: sed -i 's/Server=127.0.0.1/Server=192.168.101.229/g' /etc/zabbix/zabbix_agentd.conf
+  - name: change server active ip
+    shell: sed -i 's/ServerActive=127.0.0.1/ServerActive=192.168.101.229/g' /etc/zabbix/zabbix_agentd.conf
+  - name: 启动zabbix zgent
+    shell: systemctl start zabbix-agent
+  - name: 设置为开机自启动
+    shell: systemctl enable zabbix-agent

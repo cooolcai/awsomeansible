@@ -1,0 +1,32 @@
+###安装jdk
+- name: "创建es用户"
+  shell: useradd es
+- name: "设置es密码"
+  shell: echo "ilw@2021a" | passwd --stdin es
+- name: "1.设置源"
+  shell: curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+- name: "2.yum下载安装wget"
+  shell: yum -y install wget
+- name: "2-1创建jdk安装位置"
+  shell: mkdir -p /usr/local/jdk/
+- name: "3、移动jdk文件夹"
+  copy:
+    src: "/etc/ansible/roles/jdk-11.0.11_linux-x64_bin.tar.gz"
+    dest: "/usr/local/jdk/jdk-11.0.11_linux-x64_bin.tar.gz"
+    owner: root
+    mode: 777
+- name: "4.解压jdk-11"
+  shell: tar -zxvf /usr/local/jdk/jdk-11.0.11_linux-x64_bin.tar.gz -C /usr/local/jdk/
+- name: "创建java.sh文件"
+  shell: touch /etc/profile.d/java.sh
+- name: "5-1.设置jdk-11环境变量"
+  shell: echo 'JAVA_HOME=/usr/local/jdk/jdk-11.0.11'>>/etc/profile.d/java.sh
+- name: "5-2.设置jdk-11环境变量"
+  shell: echo 'CLASSPATH=$JAVA_HOME/lib'>>/etc/profile.d/java.sh
+- name: "5-3.设置jdk-11环境变量"
+  shell: echo 'PATH=$JAVA_HOME/bin:$PATH'>>/etc/profile.d/java.sh
+- name: "5-4.设置jdk-11环境变量"
+  shell: echo 'export PATH JAVA_HOME CLASSPATH'>>/etc/profile.d/java.sh
+- name: "使java.sh文件生效"
+  shell: source /etc/profile.d/java.sh
+

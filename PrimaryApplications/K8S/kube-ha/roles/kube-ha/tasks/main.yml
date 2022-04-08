@@ -1,0 +1,51 @@
+---
+# 首次安装，没有本地镜像的时候，需要联网下载。
+#- name: 下载kube-ha镜像，创建kube-ha容器
+#  shell: |
+#    curl -LO https://oss.choerodon.com.cn/kubeadm-ha/kubeadm-ha-1.22.4-amd64.tar
+#    docker load -i kubeadm-ha-1.22.4-amd64.tar
+#    docker run -d --restart=always --name kubeadm-ha \
+#      -p 12480:80 \
+#      -v $PWD/my-cluster:/etc/ansible/my-cluster \
+#      -v $PWD/cluster-backup:/etc/ansible/cluster-backup \
+#      setzero/kubeadm-ha:1.22.4-amd64
+
+#本地已有对应镜像文件，可直接复制本地文件
+- name: 复制kube-ha镜像
+  copy:
+    src: /kubeadm-ha-1.22.4-amd64.tar
+    dest: /opt/kubeadm-ha-1.22.4-amd64.tar
+
+#检查docker是否运行正常，否则不执行导入镜像操作。
+- name: 检查docker服务状态
+  service:
+    name: docker
+    state: started
+
+- name: 导入kube-ha镜像，创建容器，提供12480端口下载本地安装包
+  shell: |
+    docker load -i /opt/kubeadm-ha-1.22.4-amd64.tar
+    docker run -d --restart=always --name kubeadm-ha -p 12480:80 -v $PWD/my-cluster:/etc/ansible/my-cluster -v $PWD/cluster-backup:/etc/ansible/cluster-backup setzero/kubeadm-ha:1.22.4-amd64
+
+#- name: 创建目标dest目录
+#  shell: |
+#    mkdir /opt/newCluster/
+
+#- name: 复制安装K8S集群所需的配置文件（目标服务器IP等）
+#  copy:
+#    src: hosts.m-master.hostname.ini
+#    dest: /opt/newCluster/hosts.m-master.hostname.ini
+
+#- name: 复制安装K8S集群所需的配置文件（目标服务器IP等）
+#  copy:
+#    src: files/
+#    dest: /opt/newCluster/
+#
+#- name: 配置文件复制到kube-ha容器内（容器内已配置python和其它依赖）
+#  shell: |
+#    docker cp /opt/newCluster/ kubeadm-ha:/etc/ansible/
+#
+#- name: 从容器内执行ansible-playbook：升级目标服务器内核
+#  shell: |
+#    docker exec -it kubeadm-ha ansible-playbook -i newCluster/hosts.m-master.ip.ini -e newCluster/variables.yaml 00-kernel.yml
+#

@@ -1,0 +1,56 @@
+---
+- name: Init Directiory
+  file:
+    path: "{{ nginx_dir }}"
+    state: directory
+  loop:
+    - "{{ nginx_src_dir }}"
+    - "{{ nginx_conf_dir }}"
+  loop_control:
+    loop_var: nginx_dir
+
+- name: Upload Basic Files
+  copy:
+    src: "{{ nginx_packages }}"
+    dest: "{{ nginx_src_dir }}/{{ nginx_packages }}"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  loop:
+    - "nginx-{{ nginx_version }}.tar.gz"
+    - echo-nginx-module-0.61.tar.gz
+    - nginx-http-concat-master.tar.gz
+    - ngx_http_substitutions_filter_module-master.tar.gz
+    - nginx_conf.tar.gz
+  loop_control:
+    loop_var: nginx_packages
+
+- name: Unzip Packages
+  shell: |
+      cd "{{ nginx_src_dir }}"
+      tar xzf  echo-nginx-module-0.61.tar.gz
+      tar xzf nginx-http-concat-master.tar.gz
+      tar xzf ngx_http_substitutions_filter_module-master.tar.gz
+      tar xzf nginx_conf.tar.gz
+    
+- name: Install nginx
+  shell: |
+    cd "{{ nginx_src_dir }}"
+    tar xf nginx-"{{ nginx_version }}.tar.gz"
+    cd nginx-"{{ nginx_version }}"
+    make clean
+    ./configure --prefix=/usr/local/nginx-"{{ nginx_version }}" \
+    --user=nobody \
+    --group=nobody \
+    --with-http_ssl_module \
+    --with-http_stub_status_module \
+    --with-http_realip_module \
+    --add-module=../echo-nginx-module-0.61 \
+    --add-module=../nginx-http-concat-master \
+    --add-module=../ngx_http_substitutions_filter_module-master 
+    make -j`grep -c processor /proc/cpuinfo`
+    make install
+    \cp -a ../nginx_conf/* "{{nginx_conf_dir}}"
+
+
+

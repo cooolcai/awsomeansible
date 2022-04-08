@@ -1,0 +1,8 @@
+---
+# 安装pushgateway
+- include: install.yml
+  tags: install
+
+# 其他操作
+- include: set_other.yml
+

@@ -1,0 +1,27 @@
+#集群名称
+cluster.name: es
+#节点名称
+node.name: node-1
+node.master: true
+#是否存储数据
+node.data: true
+#最⼤集群节点数
+node.max_local_storage_nodes: 3
+#⽹关地址
+network.host: 192.168.0.1
+#端⼝
+http.port: 9200
+#内部节点之间沟通端⼝
+transport.tcp.port: 9300
+#es7.x 之后新增的配置，写⼊候选主节点的设备地址，在开启服务后可以被选为主节点
+discovery.seed_hosts: ["192.168.0.2:9300","192.168.0.3:9300","192.168.0.4:9300"]
+#es7.x 之后新增的配置，初始化⼀个新的集群时需要此配置来选举master
+# cluster.initial_master_nodes: ["*", "*","*"]--------------此列在es-class配置
+path.data: /usr/local/es/data
+path.logs: /usr/local/es/log
+cluster.initial_master_nodes: ["node-4"]
+xpack.security.enabled: true
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.security.transport.ssl.keystore.path: /usr/local/es/elasticsearch-7.6.2/config/elastic-certificates.p12
+xpack.security.transport.ssl.truststore.path: /usr/local/es/elasticsearch-7.6.2/config/elastic-certificates.p12

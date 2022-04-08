@@ -1,0 +1,4 @@
+---
+- hosts: zabbix5_host
+  roles:
+    - role: zabbix5

@@ -1,0 +1,113 @@
+---
+  
+- name: Disable SELinux
+  selinux:
+    state: disabled
+  tags: set_selinux
+
+- name: Disable Firewalld
+  service:
+    name: firewalld
+    enabled: no
+    state: stopped
+  tags: set_firewalld
+
+- name: set resolv.conf
+  copy:
+    src: resolv.conf
+    dest: /etc/resolv.conf
+    mode: "0755"
+    remote_src: no
+  tags: set_dns
+  when: "'dns_yes' not in op_tag_results"
+
+- name: set locale.conf
+  copy:
+    src: locale.conf
+    dest: /etc/locale.conf
+    mode: "0755"
+    remote_src: no
+  tags: set_locale
+  when: "'locale_yes' not in op_tag_results"
+
+- name: set 20-nproc.conf
+  copy:
+    src: 20-nproc.conf
+    dest: /etc/security/limits.d/20-nproc.conf
+    mode: "0755"
+    remote_src: no
+  tags: user_limits
+  when: "'nproc_yes' not in op_tag_results"
+
+- name: set limits.conf
+  copy:
+    src: limits.conf
+    dest: /etc/limits.conf
+    mode: "0755"
+    remote_src: no
+  tags: set_limits
+  when: "'limits_yes' not in op_tag_results"
+
+- name: set sshd_config
+  copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    mode: "0755"
+    remote_src: no
+  tags: set_sshd
+  when: "'sshd_yes' not in op_tag_results"
+
+- name: set sysctl.conf
+  copy:
+    src: sysctl.conf
+    dest: /etc/sysctl.conf
+    mode: "0755"
+    remote_src: no
+  tags: set_sysctl
+  when: "'sysctl_yes' not in op_tag_results"
+
+- name: set Vim Color
+  copy:
+    src: ps.sh
+    dest: /etc/profile.d/ps.sh
+    mode: "0755"
+    remote_src: no
+  tags: set_vim
+  when: "'ps_yes' not in op_tag_results"
+
+- name: set .vimrc
+  copy:
+    src: vimrc
+    dest: /root/.vimrc
+    mode: "0755"
+    remote_src: no
+  tags: set_vimrc
+  when: "'vimrc_yes' not in op_tag_results"
+
+- name: set crond
+  copy:
+    src: root
+    dest: /var/spool/cron/root
+    mode: "0600"
+    remote_src: no
+  tags: set_ntpd
+  when: "'ntp_yes' not in op_tag_results"
+
+- name: set fail2ban jail.conf
+  copy:
+    src: jail.conf
+    dest: /etc/fail2ban/jail.conf
+    mode: "0644"
+    remote_src: no
+  tags: set_fail2ban
+  when: "'fail2ban_yes' not in op_tag_results"
+
+- name: set rc.local jail.conf
+  copy:
+    src: rc.local
+    dest: /etc/rc.d/rc.local
+    mode: "0755"
+    remote_src: no
+  tags: set_rclocal
+  when: "'rc_yes' not in op_tag_results"
+

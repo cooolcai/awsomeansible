@@ -1,0 +1,27 @@
+---
+
+- name: start etcd
+  service:
+    name: etcd
+    state: started
+  tags: start_etcd
+
+- name: stop etcd
+  service:
+    name: etcd
+    state: stopped
+  tags: stop_etcd
+
+- name: clean test data
+  shell: |
+    systemctl stop etcd
+    rm -rf {{ etcd_data_dir }}/*
+  tags: clean_test_data
+  ignore_errors: True
+
+- name: clean etcd
+  shell: |
+    systemctl stop etcd
+    rm -rf {{ etcd_install_dir }}
+  tags: clean_etcd
+  ignore_errors: True

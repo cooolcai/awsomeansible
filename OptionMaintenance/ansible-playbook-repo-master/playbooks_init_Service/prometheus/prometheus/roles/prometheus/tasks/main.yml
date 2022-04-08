@@ -1,0 +1,11 @@
+---
+# 安装prometheus
+- include: install.yml
+  tags: install
+
+# 目录初始化
+- include: set_config.yml
+  tags: set_config
+
+
+- include: set_other.yml

@@ -1,0 +1,21 @@
+---
+# 安装tomcat
+- include: install_tomcat.yml
+  tags: install_tomcat
+
+#目录初始化
+- include: set_other.yml
+  tags: set_other
+
+# 后续补充tomcat优化，热部署
+#- include_tasks: set_{{ item }}.yml
+#  with_items:
+#    # 哨兵目录初始化
+#    - sentinel
+#    # 集群配置管理
+#    - cluster
+#    # 复制配置管理
+#    - replicate
+#    # 其他配置（启停，清理数据）
+#    - other
+#  tags: service_conf

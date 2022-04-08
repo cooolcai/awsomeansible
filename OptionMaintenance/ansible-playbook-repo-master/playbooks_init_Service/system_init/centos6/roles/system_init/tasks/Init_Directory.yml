@@ -1,0 +1,9 @@
+---
+- name: Init directory
+  file:
+    path: "{{ item }}"
+    state: directory
+
+  with_items:
+    - /opt/src
+    - /etc/yum.repos.d/old

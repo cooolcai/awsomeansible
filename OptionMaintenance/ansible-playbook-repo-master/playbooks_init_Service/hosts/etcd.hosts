@@ -1,0 +1,6 @@
+[etcd_host]
+c7-k8s-01-88-71 ansible_host=192.168.88.71
+c7-k8s-02-88-72 ansible_host=192.168.88.72
+c7-k8s-03-88-73 ansible_host=192.168.88.73
+c7-k8s-04-88-74 ansible_host=192.168.88.74
+c7-k8s-05-88-75 ansible_host=192.168.88.75

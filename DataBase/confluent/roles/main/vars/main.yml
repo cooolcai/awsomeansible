@@ -1,0 +1,23 @@
+#### kafka ####
+# kafka 源文件目录
+confluent_version: "7.0.1"
+confluent_src_dir: "{{ src_dir }}/confluent_{{ confluent_version }}"
+# kafka 安装变量
+confluent_install_dir: '/usr/local/confluent-{{ confluent_version }}'
+confluent_etc_dir: '{{confluent_install_dir}}/etc'
+zk_data_dir: "{{ confluent_install_dir}}/confluentdata/data/zk"
+zk_logs_dir: "{{ confluent_install_dir}}/confluentdata/logs/zk"
+kafka_data_dir: "{{ confluent_install_dir}}/confluentdata/data/kafka"
+kafka_conf_dir: "{{ confluent_etc_dir}}/kafka"
+confluent_bin_dir: "{{ confluent_install_dir}}/bin"
+kafka_logs_dir: "{{ confluent_install_dir}}/confluentdata/logs/kafka"
+kafka_port: 9092
+zk_port: 2181
+confluent_schame_port: 18081
+confluent_rest_port: 18082
+confluent_connector_port: 8083
+zk_conf_dir: "{{ confluent_etc_dir}}/kafka"
+#avro
+confluent_schame_format: "json"
+kafka_hostip: "{{ ansible_host }}"
+confluent_remote_down: "https://packages.confluent.io/archive/{{confluent_version[0,3]}}/confluent-{{confluent_version}}.tar.gz"

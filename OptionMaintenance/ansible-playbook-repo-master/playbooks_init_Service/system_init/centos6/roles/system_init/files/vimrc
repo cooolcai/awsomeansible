@@ -1,0 +1,24 @@
+"system_init
+syntax enable
+syntax on
+set ruler
+set number
+set cursorline
+set cursorcolumn
+set hlsearch
+set incsearch
+set ignorecase
+set nocompatible
+set wildmenu
+set paste
+set expandtab
+set tabstop=2
+set shiftwidth=4
+set softtabstop=4
+set gcr=a:block-blinkon0
+set guioptions-=l
+set guioptions-=L
+set guioptions-=r
+set guioptions-=R
+highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE

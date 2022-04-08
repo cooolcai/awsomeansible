@@ -1,0 +1,4 @@
+---
+- hosts: php56_host
+  roles:
+    - role: php56

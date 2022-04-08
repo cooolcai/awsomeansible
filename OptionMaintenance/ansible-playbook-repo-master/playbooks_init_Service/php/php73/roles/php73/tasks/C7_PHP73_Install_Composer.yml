@@ -1,0 +1,9 @@
+---
+- name: Download Composer
+  shell: |
+    cd {{ src_dir }}
+    {{ php73_install_dir }}/bin/php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');"
+    {{ php73_install_dir }}/bin/php composer-setup.php
+    chmod 755 {{ src_dir }}/composer.phar
+    mv {{ src_dir }}/composer.phar /usr/local/bin/composer
+    echo "yes"|{{ php73_install_dir }}/bin/php /usr/local/bin/composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/

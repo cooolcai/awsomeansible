@@ -1,0 +1,21 @@
+#### MySQL ####
+# MySQL57 源文件目录
+mysql57_src_dir: "{{ src_dir }}/mysql57"
+# MySQL57 版本安装变量
+mysql57_port: '3306'
+mysql57_install_dir: '/usr/local/mysql57'
+mysql57_data_dir: "{{ data_dir }}/mysql{{ mysql57_port }}"
+mysql57_conf_dir: "/etc/my.cnf"
+#mysql57_version: "mysql-{{ mysql_version }}-linux-glibc2.12-x86_64"
+
+# PHP-FPM Optimiz
+mysql57_owner: mysql
+mysql57_group: mysql
+
+mysql57_remote_down: "http://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/{{ mysql57_version }}.tar.gz"
+
+####czm
+local_yum_repo: "http://10.42.40.45:12480"
+mysql57_version: '5.7.37'
+mysql57_file: "mysql-{{ mysql57_version }}-1.el7.x86_64.rpm-bundle.tar"
+mysql57_online_down: "http://mirrors.163.com/mysql/Downloads/MySQL-5.7/mysql-{{ mysql57_version }}-1.el7.x86_64.rpm-bundle.tar"

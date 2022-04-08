@@ -1,0 +1,4 @@
+---
+- hosts: cmake_host
+  roles:
+    - role: cmake

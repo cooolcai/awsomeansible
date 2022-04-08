@@ -1,0 +1,10 @@
+#### tomcat ####
+# tomcat 源文件目录
+tomcat_src_dir: "{{ src_dir }}/tomcat-{{ tomcat_version }}"
+# tomcat 安装变量
+tomcat_install_dir: '/usr/local/tomcat-{{ tomcat_version }}'
+tomcat_data_dir: "{{ tomcat_install_dir}}/webapps"
+#tomcat_conf_dir: "{{ tomcat_install_dir}}/conf"
+tomcat_bin_dir: "{{ tomcat_install_dir}}/bin"
+#tomcat_logs_dir: "{{ tomcat_install_dir}}/logs"
+

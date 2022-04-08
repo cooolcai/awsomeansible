@@ -1,0 +1,32 @@
+---
+# - name: Copy JVM Config
+
+- name: Set 20-nproc.conf
+  copy:
+    src: 20-nproc.conf
+    dest: /etc/security/limits.d/20-nproc.conf
+    mode: "0755"
+    remote_src: no
+
+- name: Set limits.conf
+  copy:
+    src: limits.conf
+    dest: /etc/limits.conf
+    mode: "0755"
+    remote_src: no
+
+- name: Set sysctl.conf
+  copy:
+    src: sysctl.conf
+    dest: /etc/sysctl.conf
+    mode: "0755"
+    remote_src: no
+
+- name: Set Node Config
+  copy:
+    src: elasticsearch.yml
+    dest: /etc/elasticsearch.yml
+    mode: "0755"
+    remote_src: no
+
+# - name: Set Main Config

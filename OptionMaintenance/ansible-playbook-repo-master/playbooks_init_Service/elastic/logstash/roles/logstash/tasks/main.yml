@@ -1,0 +1,16 @@
+---
+- name: Init Logstash Dir
+  file:
+    path: /opt/src/logstash
+    state: directory
+
+- name: Download Logstash Package
+  get_url:
+    url: "http://mirrors.tuna.tsinghua.edu.cn/elasticstack/7.x/yum/{{ elastic_version }}/logstash-{{ elastic_version }}.rpm"
+    dest: "/opt/src/logstash/logstash-{{ elastic_version }}.rpm"
+    timeout: 600
+
+- name: Install Logstash RPM
+  yum:
+    name: "/opt/src/logstash/logstash-{{ elastic_version }}.rpm"
+    state: present

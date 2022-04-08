@@ -1,0 +1,11 @@
+---
+- name: 打印变量a
+  debug: var=a
+
+- name: 打印变量b
+  debug: var=b
+
+- name: 使用jinja2模板
+  template:
+        src: /root/123/123.j2
+        dest: /opt/123.txt

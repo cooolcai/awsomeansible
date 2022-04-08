@@ -1,0 +1,10 @@
+cluster.name: "{{ cluster_name }}"
+node.name: "{{ node_name }}"
+node.master: true 
+node.data: true 
+cluster.remote.connect: false 
+network.host: 172.17.0.17
+http.port: 9200
+transport.port：9300
+discovery.seed_hosts: ["172.17.0.17:9300"]
+cluster.initial_master_nodes: ["172.17.0.17:9300"]

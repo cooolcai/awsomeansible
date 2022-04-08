@@ -1,0 +1,5 @@
+---
+- hosts: es-01_host
+  roles:
+    - role: es01
+

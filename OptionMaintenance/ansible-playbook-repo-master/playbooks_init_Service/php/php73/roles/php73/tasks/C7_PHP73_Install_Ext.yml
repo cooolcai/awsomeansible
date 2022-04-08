@@ -1,0 +1,62 @@
+---
+- name: Upload  Extend Package
+  copy:
+    src: "ext/{{ extend_package }}"
+    dest: "{{ php73_ext_src_dir }}"
+    mode: "0755"
+    remote_src: no
+  loop:
+    - "imagick-{{ imagick_version }}.tgz" 
+    - "redis-{{ redis_version }}.tgz"
+    - "swoole-{{ swoole_version }}.tgz"
+    - "igbinary-{{ igbinary_version }}.tgz"
+  loop_control:
+    loop_var: extend_package
+
+- name: Unzip Extend Package
+  shell: |
+    cd {{ php73_ext_src_dir }}
+    tar -zxvf {{ ext_package_fullname}}
+  loop:
+    - "imagick-{{ imagick_version }}.tgz" 
+    - "redis-{{ redis_version }}.tgz"
+    - "swoole-{{ swoole_version }}.tgz"
+    - "igbinary-{{ igbinary_version }}.tgz"
+  loop_control:
+    loop_var: ext_package_fullname
+
+- name: Install Redis extend 
+  shell: |
+    cd {{ php73_ext_src_dir }}/redis-{{ redis_version }}
+    {{ php73_phpize_dir }}
+    make clean
+    ./configure --with-php-config={{ php73_install_dir }}/bin/php-config \
+    --enable-redis
+    make -s -j$(nproc)  && make install
+    if ! `grep -q ^extension=redis.so {{ php73_install_dir }}/etc/php.ini`;then echo extension=redis.so >> {{ php73_install_dir }}/etc/php.ini;fi
+
+- name: Install imagick extend 
+  shell: |
+    cd {{ php73_ext_src_dir }}/imagick-{{ imagick_version }}
+    {{ php73_phpize_dir }}
+    ./configure  --with-php-config={{ php73_install_dir }}/bin/php-config 
+    make -s -j$(nproc)  && make install
+    if ! `grep -q ^extension=imagick.so {{ php73_install_dir }}/etc/php.ini`;then echo extension=imagick.so >> {{ php73_install_dir }}/etc/php.ini;fi
+
+
+- name: Install igbinary extend 
+  shell: |
+    cd {{ php73_ext_src_dir }}/igbinary-{{ igbinary_version }}
+    {{ php73_phpize_dir }}
+    ./configure --with-php-config={{ php73_install_dir }}/bin/php-config 
+    make -s -j$(nproc)  && make install
+    if ! `grep -q ^extension=igbinary.so {{ php73_install_dir }}/etc/php.ini`;then echo extension=igbinary.so >> {{ php73_install_dir }}/etc/php.ini;fi
+
+- name: Install swoole extend 
+  shell: |
+    cd {{ php73_ext_src_dir }}/swoole-{{ swoole_version }}
+    {{ php73_phpize_dir }}
+    ./configure --with-php-config={{ php73_install_dir }}/bin/php-config --enable-mysqlnd --enable-openssl --enable-http2
+    make -s -j$(nproc)  && make install
+    if ! `grep -q ^extension=swoole.so {{ php73_install_dir }}/etc/php.ini`;then echo extension=swoole.so >> {{ php73_install_dir }}/etc/php.ini;fi
+    if ! `grep -q ^swoole.use_shortname=Off {{ php73_install_dir }}/etc/php.ini`;then echo swoole.use_shortname=Off >> {{ php73_install_dir }}/etc/php.ini;fi

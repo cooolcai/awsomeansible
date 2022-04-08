@@ -1,0 +1,7 @@
+#### exporter ####
+# exporter 源文件目录
+pushgateway_src_dir: "{{ src_dir }}/pushgateway-{{ pushgateway_version}}"
+# exporter 安装变量
+pushgateway_install_dir: '/usr/local/pushgateway-{{ pushgateway_version}}'
+pushgateway_service_dir: /etc/systemd/system/
+

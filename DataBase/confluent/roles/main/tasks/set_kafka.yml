@@ -1,0 +1,51 @@
+---
+- name: init kafka conf
+  template:
+    src: "server.properties.j2"
+    dest: "{{ kafka_conf_dir }}/server.properties"
+    mode: '0644'
+    remote_src: no
+  
+- name: init zk conf
+  template:
+    src: "zoo.cfg-3.5.j2"
+    dest: "{{ zk_conf_dir }}/zoo.cfg"
+    mode: '0644'
+    remote_src: no
+
+- name: init zk myid
+  template:
+    src: "zk.myid.j2"
+    dest: "{{ zk_data_dir }}/myid"
+    mode: '0644'
+    remote_src: no
+
+- name: init connect-avro-distributed.properties
+  template:
+    src: "connect-avro-distributed.properties.j2"
+    dest: "{{ confluent_etc_dir }}/schema-registry/connect-avro-distributed.properties"
+    mode: '0644'
+    remote_src: no
+    
+- name: init schema-registry.properties
+  template:
+    src: "schema-registry.properties.j2"
+    dest: "{{ confluent_etc_dir }}/schema-registry/schema-registry.properties"
+    mode: '0644'
+    remote_src: no
+    
+- name: init kafka-rest.properties
+  template:
+    src: "kafka-rest.properties.j2"
+    dest: "{{ confluent_etc_dir }}/kafka-rest/kafka-rest.properties"
+    mode: '0644'
+    remote_src: no
+    
+    
+    
+- name: init zk myid
+  template:
+    src: "zk.myid.j2"
+    dest: "{{ zk_data_dir }}/myid"
+    mode: '0644'
+    remote_src: no

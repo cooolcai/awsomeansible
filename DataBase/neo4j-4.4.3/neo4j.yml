@@ -1,0 +1,4 @@
+---
+- hosts: neo4j_host
+  roles:
+    - role: neo4j

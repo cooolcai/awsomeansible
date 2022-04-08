@@ -1,0 +1,60 @@
+---
+#- name: Include Init Syetem 
+
+- name: Wget HAproxy
+  get_url:
+    url: https://repo.huaweicloud.com/haproxy/1.8/src/haproxy-{{ haproxy_version }}.tar.gz
+    dest: /opt/tools/haproxy-{{ haproxy_version }}.tar.gz
+
+- name: Unzip HAproxy.tar.gz
+  unarchive:
+    src: /opt/tools/haproxy-{{ haproxy_version }}.tar.gz
+    dest: /opt/tools/
+    remote_src: yes
+
+- name: Init HAproxy directory
+  file:
+    path: /usr/local/haproxy-{{ haproxy_version }}
+    state: directory
+
+- name: Link HAproxy
+  file:
+    src: /usr/local/haproxy-{{ haproxy_version }}
+    dest: /usr/local/haproxy
+    state: link
+
+- name: Init HAproxy conf directory
+  file:
+    path: /usr/local/haproxy/conf
+    state: directory
+
+- name: Init HAproxy log directory
+  file:
+    path: /var/lib/haproxy
+    state: directory
+
+- name: Centos 6 Install HAproxy
+  shell: |
+    make TARGET=linux26 ARCH=x86_64 USE_OPENSSL=1 PREFIX=/usr/local/haproxy
+    make install PREFIX=/usr/local/haproxy
+  args:
+    chdir: /opt/tools/haproxy-{{ haproxy_version }}
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == "6"
+
+- name: Centos 7 Install HAproxy
+  shell: |
+    make TARGET=linux26 ARCH=x86_64 USE_OPENSSL=1 PREFIX=/usr/local/haproxy
+    make install PREFIX=/usr/local/haproxy
+  args:
+    chdir: /opt/tools/haproxy-{{ haproxy_version }}
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == "7"
+
+- name: Copy server manager script
+  copy:
+    src: haproxy.init
+    dest: /etc/init.d/haproxy
+    mode: '0755'

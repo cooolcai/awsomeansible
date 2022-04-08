@@ -1,0 +1,37 @@
+
+- name: init directiory
+  file:
+    path: "{{ m3db_dir }}"
+    state: directory
+  loop:
+    - "{{ m3db_src_dir }}"
+    - "{{ m3db_data_dir }}"
+    - "{{ m3db_conf_dir }}"
+    - "{{ m3db_bin_dir }}"
+    - "{{ m3db_logs_dir }}"
+  loop_control:
+    loop_var: m3db_dir
+
+- name: yum package jq
+  yum:
+    name: jq
+    state: latest
+
+- name: upload m3db src
+  copy:
+    src: "m3_{{ m3db_version}}_linux_amd64.tar.gz"
+    dest: "{{ m3db_src_dir }}/m3_{{ m3db_version}}_linux_amd64.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install m3db
+  shell: |
+    cd "{{ m3db_src_dir }}"
+    tar xf "m3_{{ m3db_version }}_linux_amd64.tar.gz"
+    cd "m3_{{ m3db_version }}_linux_amd64"
+    
+
+- name: mv m3db binary 
+  shell: 
+    cmd: mv m3aggregator  m3coordinator  m3dbnode  m3query "{{ m3db_bin_dir }}/"
+    chdir: "{{ m3db_src_dir }}/m3_{{ m3db_version}}_linux_amd64"

@@ -1,0 +1,16 @@
+---
+- name: Init Filebeat Dir
+  file:
+    path: /opt/src/filebeat
+    state: directory
+
+- name: Download Filebeat Package
+  get_url:
+    url: "http://mirrors.tuna.tsinghua.edu.cn/elasticstack/7.x/yum/{{ elastic_version }}/filebeat-{{ elastic_version }}-x86_64.rpm"
+    dest: "/opt/src/filebeat/filebeat-{{ elastic_version }}-x86_64.rpm"
+    timeout: 600
+
+- name: Install Filebeat RPM
+  yum:
+    name: "/opt/src/filebeat/filebeat-{{ elastic_version }}-x86_64.rpm"
+    state: present

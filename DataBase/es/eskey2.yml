@@ -1,0 +1,5 @@
+---
+- hosts: eskey2_host
+  roles:
+    - role: eskey2
+

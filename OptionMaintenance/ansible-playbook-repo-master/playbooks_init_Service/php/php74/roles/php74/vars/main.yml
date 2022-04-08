@@ -1,0 +1,31 @@
+#### PHP ####
+# PHP7.4 源文件目录
+php74_src_dir: "{{ src_dir }}/php74"
+php74_ext_src_dir: "{{ php74_src_dir }}/ext"
+# PHP7.4 版本安装变量
+php74_install_dir: '/usr/local/php74'
+php74_phpize_dir: "{{ php74_install_dir }}/bin/phpize"
+php74_conf_dir: "{{ php74_install_dir }}/etc"
+php74_version: '7.4.11'
+php74_exten_dir: "{{php74_install_dir}}/lib/php/extensions/no-debug-non-zts-20190902/"
+
+# PHP-FPM Optimiz
+php74_pm: 'static'
+php74_max_children: '200'
+php74_owner: nobody
+php74_group: nobody
+
+
+#### PHP GD库部署变量 ####
+libjpeg_version: "v9d"
+libjpeg_dir_version: "9d"
+libpng_version: "1.6.37"
+zlib_version: "1.2.11"
+freetype_version: "2.10.3"
+gd_extend_dir: "{{ php74_src_dir }}/{{ php74_version}}/ext/gd/"
+
+#### PHP 扩展版本
+imagick_version: "3.4.4"
+redis_version: "5.3.1"
+swoole_version: "4.5.5"
+igbinary_version: "3.1.6"

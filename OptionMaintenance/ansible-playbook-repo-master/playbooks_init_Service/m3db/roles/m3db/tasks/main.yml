@@ -1,0 +1,12 @@
+---
+# 安装m3db
+- include: install.yml
+  tags: install
+
+# 目录初始化
+- include: set_config.yml
+  tags: set_config
+
+- include: set_pki.yml
+
+- include: set_other.yml

@@ -1,0 +1,4 @@
+---
+- hosts: libzip_host
+  roles:
+    - role: libzip

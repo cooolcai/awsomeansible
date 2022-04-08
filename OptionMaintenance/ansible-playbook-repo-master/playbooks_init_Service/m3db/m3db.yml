@@ -1,0 +1,4 @@
+---
+- hosts: m3db_host
+  roles:
+    - role: m3db

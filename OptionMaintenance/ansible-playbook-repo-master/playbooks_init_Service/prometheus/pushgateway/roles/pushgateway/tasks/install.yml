@@ -1,0 +1,33 @@
+---
+- name: add exporter user
+  user:
+    name: prometheus
+    state: present
+
+- name: init src directiory
+  file:
+    path: "{{ pushgateway_src_dir }}"
+    state: directory
+
+- name: upload pushgateway src
+  copy:
+    src: "pushgateway-{{ pushgateway_version}}.linux-amd64.tar.gz"
+    dest: "{{ pushgateway_src_dir }}/pushgateway-{{ pushgateway_version}}.linux-amd64.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install exporter
+  shell: |
+    cd "{{ pushgateway_src_dir }}"
+    tar xf "pushgateway-{{ pushgateway_version}}.linux-amd64.tar.gz"
+    mv "pushgateway-{{ pushgateway_version}}.linux-amd64" "{{ pushgateway_install_dir }}"
+    chown prometheus.prometheus "{{ pushgateway_install_dir }}"
+
+- name: set pushgateway service
+  template:
+    src: pushgateway.service.j2
+    dest: "{{ pushgateway_service_dir }}/pushgateway.service"
+    mode: '0644'
+  tags: set_pushgateway_service
+
+

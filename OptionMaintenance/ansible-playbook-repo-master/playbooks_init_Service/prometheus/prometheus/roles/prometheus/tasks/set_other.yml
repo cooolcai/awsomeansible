@@ -1,0 +1,27 @@
+---
+
+- name: start prometheus
+  service:
+    name: prometheus
+    state: started
+  tags: start_prometheus
+
+- name: stop prometheus
+  service:
+    name: prometheus
+    state: stopped
+  tags: stop_prometheus
+
+- name: clean test data
+  shell: |
+    systemctl stop prometheus
+    rm -rf {{ prometheus_data_dir }}/*
+  tags: clean_test_data
+  ignore_errors: True
+
+- name: clean prometheus
+  shell: |
+    systemctl stop prometheus
+    rm -rf {{ prometheus_install_dir }}
+  tags: clean_prometheus
+  ignore_errors: True

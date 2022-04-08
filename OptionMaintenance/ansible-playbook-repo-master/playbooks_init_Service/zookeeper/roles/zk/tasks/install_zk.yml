@@ -1,0 +1,32 @@
+
+- name: init directiory
+  file:
+    path: "{{ zk_dir }}"
+    state: directory
+  loop:
+    - "{{ zk_src_dir }}"
+  loop_control:
+    loop_var: zk_dir
+
+- name: upload zookeeper src
+  copy:
+    src: "apache-zookeeper-{{ zk_version}}-bin.tar.gz"
+    dest: "{{ zk_src_dir }}/apache-zookeeper-{{ zk_version}}-bin.tar.gz"
+    mode: "0755"
+    remote_src: no
+
+- name: install zookeeper
+  shell: |
+    cd "{{ zk_src_dir }}"
+    tar xf apache-zookeeper-"{{ zk_version}}"-bin.tar.gz
+    mv apache-zookeeper-"{{ zk_version}}-bin" /usr/local/
+
+- name: init other directiory
+  file:
+    path: "{{ zk_other_dir }}"
+    state: directory
+  loop:
+    - "{{ zk_data_dir }}"
+    - "{{ zk_logs_dir }}"
+  loop_control:
+    loop_var: zk_other_dir

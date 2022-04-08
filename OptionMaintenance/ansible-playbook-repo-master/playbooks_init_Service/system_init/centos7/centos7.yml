@@ -1,0 +1,4 @@
+---
+- hosts: centos7_host
+  roles:
+    - role: centos7

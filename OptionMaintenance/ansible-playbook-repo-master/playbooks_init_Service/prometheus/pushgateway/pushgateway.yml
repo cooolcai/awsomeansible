@@ -1,0 +1,4 @@
+---
+- hosts: pushgateway_host
+  roles:
+    - role: pushgateway

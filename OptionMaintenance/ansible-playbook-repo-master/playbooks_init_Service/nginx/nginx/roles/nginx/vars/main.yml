@@ -1,0 +1,6 @@
+#### Nginx ####
+# Nginx 源文件目录
+nginx_src_dir: "{{ src_dir }}/nginx-{{ nginx_version }}"
+nginx_conf_dir: "/usr/local/nginx-{{nginx_version}}/conf/"
+# Nginx 安装变量
+nginx_install_dir: '/usr/local/nginx-{{ nginx_version }}'

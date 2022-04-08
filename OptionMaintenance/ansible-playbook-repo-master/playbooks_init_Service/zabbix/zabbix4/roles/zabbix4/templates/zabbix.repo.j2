@@ -1,0 +1,17 @@
+[zabbix]
+name=Zabbix Official Repository - $basearch
+baseurl={{ yum_repo }}/$basearch/
+enabled=1
+gpgcheck=0
+
+[zabbix-debuginfo]
+name=Zabbix Official Repository debuginfo - $basearch
+baseurl={{ yum_repo }}/$basearch/debuginfo/
+enabled=0
+gpgcheck=0
+
+[zabbix-non-supported]
+name=Zabbix Official Repository non-supported - $basearch
+baseurl={{ yum_non_repo }}/$basearch/
+enabled=1
+gpgcheck=0

@@ -1,0 +1,5 @@
+---
+- hosts: elasticsearch_host01
+  roles:
+    - role: elasticsearch1
+

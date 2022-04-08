@@ -1,0 +1,31 @@
+#### PHP ####
+# PHP7.3 源文件目录
+php73_src_dir: "{{ src_dir }}/php73"
+php73_ext_src_dir: "{{ php73_src_dir }}/ext"
+# PHP7.3 版本安装变量
+php73_install_dir: '/usr/local/php73'
+php73_phpize_dir: "{{ php73_install_dir }}/bin/phpize"
+php73_conf_dir: "{{ php73_install_dir }}/etc"
+php73_version: 'php-7.3.23'
+php73_exten_dir: "{{php73_install_dir}}/lib/php/extensions/no-debug-non-zts-20180731/"
+
+# PHP-FPM Optimiz
+php73_pm: 'static'
+php73_max_children: '200'
+php73_owner: nobody
+php73_group: nobody
+
+
+#### PHP GD库部署变量 ####
+libjpeg_version: "v9d"
+libjpeg_dir_version: "9d"
+libpng_version: "1.6.37"
+zlib_version: "1.2.11"
+freetype_version: "2.10.3"
+gd_extend_dir: "{{ php73_src_dir }}/{{ php73_version}}/ext/gd/"
+
+#### PHP 扩展版本
+imagick_version: "3.4.4"
+redis_version: "5.3.1"
+swoole_version: "4.5.5"
+igbinary_version: "3.1.6"

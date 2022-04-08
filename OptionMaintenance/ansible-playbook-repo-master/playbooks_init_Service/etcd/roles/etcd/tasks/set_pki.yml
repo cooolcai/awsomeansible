@@ -1,0 +1,19 @@
+---
+- name: init pki conf
+  template:
+    src: etcd.service.pki.j2
+    dest: "{{ etcd_service_dir }}/etcd.service"
+    mode: '0644'
+  tags: turn_on_pki
+  when:  etcd_version[0:3] == "3.4"
+
+- name: upload pki
+  synchronize:
+    src: files/pki/
+    dest: "{{ etcd_pki_dir }}/"
+  tags: turn_on_pki
+
+- name: set etcd service
+  shell: |
+    systemctl daemon-reload && systemctl enable etcd
+  tags: turn_on_pki

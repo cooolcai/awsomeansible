@@ -1,0 +1,7 @@
+####在此处将变量传递到python脚本中
+#两种实现方式：
+##python脚本直接使用jinja2脚本，复制python脚本的同时，直接使用此处变量。
+##将python脚本复制到目标机器后，通过lineinfile模块将变量名替换成此处的变量。
+var1: "5.0.7"
+var2: "Ynyc2019a@!"
+redis507_file: "redis-507-install.tar"

@@ -1,0 +1,24 @@
+---
+- name: Set ip_forward
+  lineinfile: 
+    path: /etc/sysctl.conf
+    regexp: '^#net.ipv4.ip_forward'
+    line: 'net.ipv4.ip_forward = 1'
+
+- name: Create docker directory
+  file:
+    path: /etc/docker/
+    state: directory
+
+- name: Docker pull acceleration
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    mode: "0755"
+    remote_src: no
+
+- name: Restart docker service
+  shell: |
+    systemctl daemon-reload
+    systemctl restart docker
+    systemctl enable docker

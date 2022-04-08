@@ -1,0 +1,2 @@
+# cmake
+cmake_src_dir: "{{ src_dir }}/cmake-{{ cmake_version }}"

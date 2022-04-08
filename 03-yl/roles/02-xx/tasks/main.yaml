@@ -1,0 +1,7 @@
+- name: 使用jinja2模板
+  template:
+    src: 123.j2
+    dest: /opt/123.txt
+    owner: root
+    group: root
+    mode: 0644

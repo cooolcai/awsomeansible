@@ -1,0 +1,15 @@
+---
+- name: Clean yum.repos.d
+  shell: mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/old/
+  ignore_errors: yes
+
+- name: Wget Centos6 basic aliyun mirrors repo
+  get_url:
+    url: http://mirrors.aliyun.com/repo/Centos-6.repo
+    dest: /etc/yum.repos.d/CentOS-Base.repo
+
+- name: Wget Centos6 epel aliyun mirrors repo
+  get_url:
+    url: http://mirrors.aliyun.com/repo/epel-6.repo
+    dest: /etc/yum.repos.d/epel.repo
+# 补充没有curl命令时拷贝文件

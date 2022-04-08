@@ -1,0 +1,4 @@
+---
+- hosts: zk_host
+  roles:
+    - role: zk

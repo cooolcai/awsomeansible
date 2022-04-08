@@ -1,0 +1,16 @@
+---
+- name: Init Kibana Dir
+  file:
+    path: /opt/src/kibana
+    state: directory
+
+- name: Download Kibana Package
+  get_url:
+    url: "http://mirrors.tuna.tsinghua.edu.cn/elasticstack/7.x/yum/{{ elastic_version }}/kibana-{{ elastic_version }}-x86_64.rpm"
+    dest: "/opt/src/kibana/kibana-{{ elastic_version }}-x86_64.rpm"
+    timeout: 600
+
+- name: Install Kibana RPM
+  yum:
+    name: "/opt/src/kibana/kibana-{{ elastic_version }}-x86_64.rpm"
+    state: present

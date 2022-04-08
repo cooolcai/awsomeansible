@@ -1,0 +1,5 @@
+server:
+  storageClass: nfs
+dns:
+  enabled: true
+  enableRedirection: true

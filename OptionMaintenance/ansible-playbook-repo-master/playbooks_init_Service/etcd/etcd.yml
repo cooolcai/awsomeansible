@@ -1,0 +1,4 @@
+---
+- hosts: etcd_host
+  roles:
+    - role: etcd

@@ -1,0 +1,26 @@
+---
+- name: init a k8s cluster
+  shell: |
+    minikube start --image-mirror-country='cn' --cpus=4 --memory=4096mb --driver=none
+
+#- name: copy dashboard-250.yaml
+#  copy:
+#    src: dashbaord-250.yaml
+#    dest: /opt/dashbaord-250.yaml
+#
+#- name: copy dashboard-250-admin.yaml
+#  copy:
+#    src: dashboard-250-admin.yaml
+#    dest: /opt/dashboard-250-admin.yaml
+#
+#- name: install k8s dashboard
+#  shell: |
+#    kubectl apply -f /opt/dashbaord-250.yaml
+#    kubectl apply -f /opt/dashboard-250-admin.yaml
+#
+#- name: get dashboard account token
+#  shell: kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/kubernetes-dashboard -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+#  register: dashboard_token
+#
+#- name: show dashboard account token
+#  debug: var=dashboard_token verbosity=0

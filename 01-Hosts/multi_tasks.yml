@@ -1,0 +1,13 @@
+---
+- hosts: docker_hosts_with_password
+  roles:
+    - role: OptionMaintenance/Docker/docker/roles/docker
+
+- hosts: mysql57_hosts_with_password
+  roles:
+    - role: DataBase/mysql57-163/roles/mysql57
+
+- hosts: neo4j_hosts_with_password
+  roles:
+    - role: DataBase/neo4j-4.4.3/roles/jdk_11
+    - role: DataBase/neo4j-4.4.3/roles/neo4j

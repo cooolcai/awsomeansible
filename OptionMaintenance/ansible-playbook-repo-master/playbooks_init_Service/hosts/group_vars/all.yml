@@ -1,0 +1,20 @@
+# src目录
+src_dir: /opt/src
+
+# 远程用户权限
+ansible_ssh_user: root
+
+#### Docker ####
+docker_version: "19.03.5-3"
+
+# data目录
+data_dir: /data
+
+
+# Remote Download
+remote_down: http://src.noteshare.cn
+
+systemctl_dir: /etc/systemd/system/
+# 待补充
+# 源码包来源（文件or下载）
+# 下载地址：内网or外网

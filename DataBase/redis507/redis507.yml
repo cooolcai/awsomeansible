@@ -1,0 +1,5 @@
+---
+- hosts: redis_host
+  roles:
+    - role: redis507
+

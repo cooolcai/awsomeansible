@@ -1,0 +1,15 @@
+[elasticsearch_host]
+10.42.40.46
+10.42.40.47
+
+[logstash_host]
+10.42.40.46
+
+[kibana_host]
+10.42.40.47
+
+[filebeat_host]
+10.42.40.46
+
+[metricbeat_host]
+10.42.40.46

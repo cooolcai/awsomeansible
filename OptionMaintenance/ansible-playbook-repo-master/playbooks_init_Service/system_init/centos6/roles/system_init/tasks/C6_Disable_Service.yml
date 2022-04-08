@@ -1,0 +1,9 @@
+---
+- name: Disable SELinux
+  shell: sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+
+- name: Disable Service
+  shell: |
+    LANG=en
+    for chkoff in `chkconfig --list|grep 3:on|awk '{print $1}'`;do chkconfig --level 3 $chkoff off;done 
+    for chkoff in crond network rsyslog sshd rpcbind fail2ban;do chkconfig --level 3 $chkoff on;done

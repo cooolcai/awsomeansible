@@ -1,0 +1,26 @@
+---
+- name: 检查本地是否存在redis安装包
+  stat:
+    path: "/media/{{ redis507_file }}"
+  register: redis507_ready
+
+- name: 本地复制mysql安装包（使用files-os）
+  copy:
+    src: "/root/fileOS/{{ redis507_file }}"
+    dest: /media
+    mode: "0755"
+    remote_src: no
+  when: redis507_ready.stat.exists == false
+
+- name: 本地复制mysql安装脚本python
+  copy:
+    src: 83-redis507-install-ini.py
+    dest: /media
+    mode: "0755"
+    remote_src: no
+
+- name: 执行安装脚本
+  shell: |
+    cd /media
+    python 83-redis507-install-ini.py
+

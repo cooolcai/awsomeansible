@@ -1,0 +1,19 @@
+---
+# 安装redis
+- include: install_redis.yml
+  tags: install_redis
+
+# 目录初始化
+- include: set_redis.yml
+
+# 哨兵目录初始化
+- include: set_sentinel.yml
+
+# 集群配置管理
+- include: set_cluster.yml
+
+# 复制配置
+- include: set_replication.yml
+
+# 其他
+- include: set_other.yml

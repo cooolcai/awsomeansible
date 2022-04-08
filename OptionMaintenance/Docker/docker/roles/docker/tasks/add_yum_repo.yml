@@ -1,0 +1,21 @@
+---
+- name: yum docker dependent
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - ipvsadm
+      - ipset
+
+- name: upload docker repo
+  copy:
+    src: docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name: yum docker
+  yum:
+    name: docker-ce-{{ docker_version }}
+    state: present

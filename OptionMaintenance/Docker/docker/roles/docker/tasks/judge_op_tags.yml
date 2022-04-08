@@ -1,0 +1,24 @@
+---
+- name: Judge optimized
+  shell: if grep -q docker_init {{ conf.dir }}{{ conf.name }};then echo {{ conf.tag }}_yes;else echo {{ conf.tag }}_no;fi
+  register: optimize_tag
+  loop:
+    - { dir: "/etc/", name: "sysctl.conf", tag: "docker_sysctl" }
+    - { dir: "/etc/rc.d/", name: "rc.local", tag: "docker_rc" }
+    - { dir: "/etc/docker/", name: "daemon.json", tag: "docker_daemon" }
+    - { dir: "/etc/yum.repos.d/", name: "docker-ce.repo", tag: "docker_yum" }
+  loop_control:
+    loop_var: conf
+
+- name: Set optimized list
+  vars:
+    op_tag_results: []
+  set_fact:
+    op_tag_results: "{{ op_tag_results + [op_tag.stdout] }}"
+  loop: "{{ optimize_tag.results }}"
+  loop_control:
+    loop_var: op_tag
+
+# - name: debug
+  # debug:
+  #   var: op_tag_results

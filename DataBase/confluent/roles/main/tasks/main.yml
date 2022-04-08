@@ -1,0 +1,13 @@
+---
+# 安装kafka
+- include: install_kafka.yml
+  tags: install_kafka
+
+# 目录初始化
+- include: set_kafka.yml
+  tags: init_conf
+
+
+# 其他操作
+- include: set_other.yml
+  tags: set_other

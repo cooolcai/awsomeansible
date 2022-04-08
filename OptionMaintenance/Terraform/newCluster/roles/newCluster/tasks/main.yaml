@@ -1,0 +1,15 @@
+---
+- name: 复制tf配置文件到目标机器
+  copy:
+    src: 1603-k8s-8123/
+    dest: /opt/1603-k8s-8123
+    mode: "0755"
+    remote_src: no
+    force: true
+
+- name: 执行terraform命令创建虚拟机
+  shell: |
+    cd /opt/1603-k8s-8123
+    terraform init -ignore-remote-version
+    terraform apply --auto-approve
+

@@ -1,0 +1,22 @@
+---
+- name: init directiory
+  file:
+    path: "{{ gemsoft_dir }}"
+    state: directory
+  loop:
+    - "{{ gemsoft_src_dir }}"
+  loop_control:
+    loop_var: gemsoft_dir
+
+
+- name: upload gemsoft src
+  copy:
+    src: "{{ gem_soft_name }}-{{ gem_soft_version}}.gem"
+    dest: "{{ gemsoft_src_dir }}/{{ gem_soft_name }}-{{ gem_soft_version}}.gem"
+    mode: "0755"
+    remote_src: no
+
+- name: install gemsoft
+  shell: |
+    cd "{{ gemsoft_src_dir }}"
+    gem install -l "{{ gem_soft_name }}-{{ gem_soft_version }}.gem"

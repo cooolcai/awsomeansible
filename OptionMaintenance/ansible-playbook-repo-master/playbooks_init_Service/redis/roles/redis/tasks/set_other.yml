@@ -1,0 +1,27 @@
+---
+
+- name: start redis
+  raw: "{{ redis_bin_dir }}/redis-server  {{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+  tags: start_redis
+
+- name: stop redis
+  shell: ps -ef|grep {{ redis_version }} |grep -v grep |awk '{print $2}'|xargs kill -9
+  tags: stop_redis
+
+- name: start redis sentinel
+  raw: "{{ redis_bin_dir }}/redis-sentinel  {{ redis_conf_dir }}/sentinel-{{ sentinel_port }}.conf"
+  tags: start_redis_sentinel
+
+- name: clean test data
+  shell: |
+    ps -ef|grep {{ redis_version }} |grep -v grep |awk '{print $2}'|xargs kill -9
+    rm -rf {{ redis_data_dir }}/*
+  tags: clean_test_data
+  ignore_errors: True
+
+- name: clean redis
+  shell: |
+    ps -ef|grep {{ redis_version }}|grep -v grep |awk '{print $2}'|xargs kill -9
+    rm -rf {{ redis_install_dir }}
+  tags: clean_redis
+  ignore_errors: True

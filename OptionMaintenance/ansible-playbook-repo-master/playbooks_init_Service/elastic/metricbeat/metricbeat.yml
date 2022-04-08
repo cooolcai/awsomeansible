@@ -1,0 +1,4 @@
+---
+- hosts: metricbeat_host
+  roles:
+    - role: metricbeat

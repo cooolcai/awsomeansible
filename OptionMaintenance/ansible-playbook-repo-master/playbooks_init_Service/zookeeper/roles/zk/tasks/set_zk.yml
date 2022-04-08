@@ -1,0 +1,15 @@
+---
+- name: init 3.5 conf
+  template:
+    src: "zoo.cfg-3.5.j2"
+    dest: "{{ zk_conf_dir }}/zoo.cfg"
+    mode: '0644'
+    remote_src: no
+  when:  zk_version[0:3] == "3.5"
+
+- name: init myid
+  template:
+    src: "myid.j2"
+    dest: "{{ zk_data_dir }}/myid"
+    mode: '0644'
+    remote_src: no

@@ -1,0 +1,20 @@
+---
+
+- name: start pushgateway
+  service:
+    name: pushgateway
+    state: started
+  tags: start_pushgateway
+
+- name: stop pushgateway
+  service:
+    name: pushgateway
+    state: stopped
+  tags: stop_pushgateway
+
+- name: clean pushgateway
+  shell: |
+    systemctl stop pushgateway
+    rm -rf {{ pushgateway_install_dir }}
+  tags: clean_pushgateway
+  ignore_errors: True

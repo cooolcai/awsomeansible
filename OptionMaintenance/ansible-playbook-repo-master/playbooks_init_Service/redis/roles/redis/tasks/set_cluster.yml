@@ -1,0 +1,14 @@
+---
+- name: turn on cluster
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^#cluster"
+    replace: cluster
+  tags: turn_on_cluster
+
+- name: turn off cluster
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^cluster"
+    replace: "#cluster"
+  tags: turn_off_cluster

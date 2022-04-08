@@ -1,0 +1,32 @@
+[global]
+pid = {{ php74_install_dir }}/var/run/php-fpm.pid
+error_log = {{ php74_install_dir }}/var/log/php-fpm.error.log
+log_level = notice
+emergency_restart_threshold = 10
+emergency_restart_interval = 1m
+process_control_timeout = 60s
+process.max = 0
+events.mechanism = epoll
+[php-{{ php74_version }}]
+user = nobody
+group = nobody
+listen = 9000
+pm = {{ php74_pm }}
+pm.max_children = {{ php74_max_children }}
+pm.start_servers = 20
+pm.min_spare_servers = 20
+pm.max_spare_servers = 150
+pm.max_requests = 150
+pm.status_path = /fpmstatus
+ping.path = /fpmping
+ping.response = pong
+rlimit_files = 102400
+catch_workers_output = yes
+security.limit_extensions = .php .php3 .php4 .php5
+env[HOSTNAME] = $HOSTNAME
+env[PATH] = /usr/local/bin:/usr/bin:/bin
+env[TMP] = /tmp
+env[TMPDIR] = /tmp
+env[TEMP] = /tmp
+
+request_terminate_timeout = 1200

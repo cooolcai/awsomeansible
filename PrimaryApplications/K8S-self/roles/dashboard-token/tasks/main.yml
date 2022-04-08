@@ -1,0 +1,29 @@
+- name: 复制rbac认证文件
+  copy:
+    src: files/dashboard-token-rbac.yaml
+    dest: /etc/kubernetes/manifests/
+
+- name: 获取dashboard-svc配置文件
+  shell: |
+    kubectl get svc -n kubernetes-dashboard kubernetes-dashboard -o yaml >/etc/kubernetes/manifests/k8s-dbd.yaml
+    sed -i "s/ClusterIP/NodePort/" /etc/kubernetes/manifests/k8s-dbd.yaml
+    sed -i "/ 443/a\    nodePort: 30001" /etc/kubernetes/manifests/k8s-dbd.yaml
+
+- name: 重新配置dashboard和token权限
+  shell: |
+    kubectl apply -f /etc/kubernetes/manifests/dashboard-token-rbac.yaml
+    kubectl apply -f /etc/kubernetes/manifests/k8s-dbd.yaml
+
+- name: 复制获取dashboard-token的脚本
+  copy:
+    src: files/get-token.sh
+    dest: /etc/kubernetes/manifests/
+    mode: 755
+
+- name: 获取dashboard-token值
+  shell: /etc/kubernetes/manifests/get-token.sh
+  register: k8s_dbd_token
+
+- name: 打印dashboard-token的值，可从https://<masterNode-ip>:30001/进行访问
+  debug:
+    var: k8s_dbd_token

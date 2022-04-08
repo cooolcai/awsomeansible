@@ -1,0 +1,23 @@
+---
+
+- name: start zookeeper
+  shell: "{{ zk_bin_dir }}/zkServer.sh  start"
+  tags: start_zk
+
+- name: stop zookeeper
+  shell: "{{ zk_bin_dir }}/zkServer.sh  stop"
+  tags: stop_zk
+
+- name: clean test data
+  shell: |
+    ps -ef|grep {{ zk_version }} |grep -v grep |awk '{print $2}'|xargs kill -9
+    rm -rf {{ zk_data_dir }}/*
+  tags: clean_test_data
+  ignore_errors: True
+
+- name: clean zookeeper
+  shell: |
+    ps -ef|grep {{ zk_version }}|grep -v grep |awk '{print $2}'|xargs kill -9
+    rm -rf {{ zk_install_dir }}
+  tags: clean_zk
+  ignore_errors: True

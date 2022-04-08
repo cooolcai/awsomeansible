@@ -1,0 +1,27 @@
+---
+- name: 在线安装nginx所需的yum源
+  yum:
+    name: epel-release
+    state: present
+
+- name: yum安装nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: 复制nginx配置文件（代理阿里云yum仓库）
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: "0755"
+    remote_src: no
+
+- name: 启动nginx，验证阿里云仓库是否代理成功
+  shell: |
+    nginx -t
+    nginx
+    curl -I -m 10 -o /dev/null -s -w %{http_code} localhost:12480/centos/
+  register: aliYumStatus
+
+- name: 查看阿里云yum源是成功访问，且返回200？
+  debug: var=aliYumStatus verbosity=0

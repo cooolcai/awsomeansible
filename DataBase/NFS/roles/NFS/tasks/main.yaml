@@ -1,0 +1,40 @@
+---
+- name: 安装nfs-utils软件，Server和Client都需要安装
+  yum:
+    name:
+      - nfs-utils                       # 挂载nfs 共享文件需要 (创建基于 nfs的 PV 需要)
+    state: latest
+
+- name: 检查本地是否存在mysql安装包
+  stat:
+    path: "/media/{{ mysql57_file }}"
+  register: mysql_file
+
+- name: 本地复制mysql安装包
+  copy:
+    src: "/root/file/{{ mysql57_file }}"
+    dest: /media
+    mode: "0755"
+    remote_src: no
+  when: mysql_file.stat.exists == false
+
+- name: 复制mysql配置文件
+  copy:
+    src: syc-now-my.cnf
+    dest: /media/my.cnf
+    force: yes
+    mode: "0755"
+    remote_src: no
+
+- name: 本地复制mysql安装脚本python
+  copy:
+    src: 11-mysql57-install-ini.py
+    dest: /media
+    mode: "0755"
+    remote_src: no
+
+- name: 执行安装脚本
+  shell: |
+    cd /media
+    python 11-mysql57-install-ini.py
+

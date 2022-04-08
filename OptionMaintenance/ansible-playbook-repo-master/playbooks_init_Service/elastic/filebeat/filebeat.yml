@@ -1,0 +1,4 @@
+---
+- hosts: filebeat_host
+  roles:
+    - role: filebeat

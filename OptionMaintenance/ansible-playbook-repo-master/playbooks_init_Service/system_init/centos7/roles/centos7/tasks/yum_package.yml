@@ -1,0 +1,124 @@
+---
+- name: yum basic package
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - autoconf
+      - bison
+      - bitmap-fonts
+      - bridge-utils
+      - bzip2
+      - bzip2-devel
+      - cmake
+      - curl
+      - curl-devel
+      - cyrus-sasl
+      - cyrus-sasl-devel
+      - centos-release-scl
+      - dos2unix
+      - dstat
+      - e2fsprogs
+      - e2fsprogs-devel
+      - expect
+      - fail2ban
+      - flex
+      - fontconfig
+      - fontconfig-devel
+      - freetype
+      - freetype-devel
+      - gcc
+      - gcc-c++
+      - gd-devel
+      - ghostscript
+      - ghostscript-devel
+      - glances
+      - glib2
+      - glib2-devel
+      - glibc
+      - glibc-devel
+      - glusterfs
+      - glusterfs-fuse
+      - gmp-devel
+      - gperf
+      - htop
+      - iftop
+      - ImageMagick
+      - ImageMagick-devel
+      - iotop
+      - iptraf
+      - krb5-devel
+      - krb5-libs
+      - libcurl-devel
+      - libffi-devel
+      - libfontenc
+      - libicu-devel
+      - libjpeg
+      - libjpeg-devel
+      - libjpeg-turbo-devel
+      - libmcrypt
+      - libmcrypt-devel
+      - libpng
+      - libpng-devel
+      - libtidy
+      - libtidy-devel
+      - libtool-ltdl-devel
+      - libXfont
+      - libxml2
+      - libxml2-devel
+      - libxslt-devel
+      - libselinux-python
+      - libzip
+      - libzip-devel
+      - libzstd-devel
+      - lrzsz
+      - make
+      - mcrypt
+      - mhash
+      - mhash-devel
+      - ncurses
+      - ncurses-devel
+      - nethogs
+      - nfs-utils
+      - nmap
+      - ntp
+      - oniguruma-devel
+      - OpenIPMI-tools
+      - openldap
+      - openldap-clients
+      - openldap-devel
+      - openldap-servers
+      - openssl
+      - openssl-devel
+      - pcre
+      - pcre-devel
+      - perl-devel
+      - psmisc
+      - python2-pip
+      - re2c
+      - readline-devel
+      - ruby
+      - screen
+      - supervisor
+      - sqlite-devel
+      - strace
+      - sysstat
+      - rsync
+      - tcpdump
+      - telnet
+      - tree
+      - urw-fonts
+      - unzip
+      - vim
+      - wget
+      - xorg-x11-fonts-base
+      - xorg-x11-fonts-Type1
+      - xorg-x11-font-utils
+      - yasm
+      - zlib
+      - zlib-devel
+  when: "'yum_centos_yes' not in op_tag_results"
+
+- name: Ldap Init
+  shell: cp -frp /usr/lib64/libldap* /usr/lib/
+  when: "'yum_centos_yes' not in op_tag_results"

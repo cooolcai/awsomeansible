@@ -1,0 +1,59 @@
+---
+- name: set rc.local
+  blockinfile:
+    path: /etc/rc.local
+    block: |
+      #docker_init
+      /usr/sbin/swapoff -a
+      /bin/sh /etc/sysconfig/modules/ipvs.modules
+      /usr/sbin/modprobe br_netfilter
+  when: "'docker_rc_yes' not in op_tag_results"
+
+- name: upload ipvs config
+  copy:
+    src: ipvs.modules
+    dest: /etc/sysconfig/modules/ipvs.modules
+    mode: "0755"
+    remote_src: no
+  when: "'docker_sysctl_yes' not in op_tag_results"
+
+- name: execute shell
+  shell: |
+    /usr/sbin/modprobe br_netfilter
+    /etc/sysconfig/modules/ipvs.modules
+    /usr/sbin/swapoff -a
+  when: "'docker_sysctl_yes' not in op_tag_results"
+
+- name: set docker sysctl
+  sysctl:
+    name: "{{ sysctl.name }}"
+    value: "{{ sysctl.value }}"
+    state: present
+  loop:
+    - { name: "net.ipv4.ip_forward", value: "1" }
+    - { name: "vm.swappiness", value: "0" }
+    - { name: "net.bridge.bridge-nf-call-ip6tables", value: "1" }
+    - { name: "net.bridge.bridge-nf-call-iptables", value: "1" }
+  loop_control:
+    loop_var: sysctl
+  notify: reload sysctl
+  when: "'docker_sysctl_yes' not in op_tag_results"
+
+- name: create docker directory
+  file:
+    path: /etc/docker/
+    state: directory
+  when: "'docker_daemon_yes' not in op_tag_results"
+
+- name: docker pull acceleration
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    mode: "0755"
+    remote_src: no
+  notify: restart docker service
+  when: "'docker_daemon_yes' not in op_tag_results"
+
+
+
+

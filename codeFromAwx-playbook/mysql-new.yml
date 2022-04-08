@@ -1,0 +1,11 @@
+- hosts: "mysql-new"
+  gather_facts: true
+  remote_user: root
+  roles:
+    - mysql-new
+    
+- hosts: "mysql-dump"
+  gather_facts: true
+  remote_user: root
+  roles:
+    - mysql-dump

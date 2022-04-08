@@ -1,0 +1,17 @@
+#### m3db ####
+# m3db 源文件目录
+m3db_src_dir: "{{ src_dir }}/m3db-{{ m3db_version }}"
+# m3db 安装变量
+m3db_install_dir: '/usr/local/m3db-{{ m3db_version }}'
+m3db_data_dir: "{{ m3db_install_dir}}/data"
+m3db_conf_dir: "{{ m3db_install_dir}}/conf"
+m3db_bin_dir: "{{ m3db_install_dir}}/bin"
+m3db_logs_dir: "{{ m3db_install_dir}}/logs"
+m3db_service_dir: /etc/systemd/system/
+
+m3db_pki_dir: "{{ m3db_install_dir }}/pki"
+m3db_hostip: "{{ ansible_host }}"
+m3db_hostname: "{{ inventory_hostname }}"
+
+m3db_cluster_name: 'm3db-cluster-0'
+m3db_cluster: [["192.168.88.71","2379"],["192.168.88.72","2379"],["192.168.88.73","2379"]]

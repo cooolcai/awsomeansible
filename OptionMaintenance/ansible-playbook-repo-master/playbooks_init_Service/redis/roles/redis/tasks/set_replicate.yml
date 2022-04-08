@@ -1,0 +1,44 @@
+---
+- name: turn on replication
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^#slaveof"
+    replace: slaveof
+  tags: turn_on_replication
+  when: master_host not in ansible_all_ipv4_addresses
+
+- name: turn off replication
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^slaveof"
+    replace: "#slaveof"
+  tags: turn_off_replication
+
+- name: turn on local auth
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^#requirepass"
+    replace: requirepass
+  tags: turn_on_local_auth
+
+- name: turn off local auth
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^requirepass"
+    replace: "#requirepass"
+  tags: turn_off_local_auth
+
+
+- name: turn on master auth
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^#masterauth"
+    replace: masterauth 
+  tags: turn_on_master_auth
+
+- name: turn off master auth
+  replace:
+    path: "{{ redis_conf_dir }}/redis-{{ redis_port }}.conf"
+    regexp: "^masterauth"
+    replace: "#masterauth"
+  tags: turn_off_master_auth

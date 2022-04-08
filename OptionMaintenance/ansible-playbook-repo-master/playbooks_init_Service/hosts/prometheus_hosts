@@ -1,0 +1,8 @@
+[prometheus_host]
+192.168.88.31
+
+[node_exporter_host]
+192.168.88.62
+[pushgateway_host]
+192.168.88.63
+192.168.88.62

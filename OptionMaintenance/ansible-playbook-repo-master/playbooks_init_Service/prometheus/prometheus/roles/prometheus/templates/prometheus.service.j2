@@ -1,0 +1,21 @@
+[Unit]
+Description=Prometheus Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+User=prometheus
+Restart=on-failure
+TimeoutStopSec=10
+ExecStart={{ prometheus_bin_dir }}/prometheus \
+  --config.file={{ prometheus_conf_dir }}/prometheus.yml \
+  --web.read-timeout=5m \
+  --web.max-connections=10 \
+  --storage.tsdb.retention=15d \
+  --storage.tsdb.path={{ prometheus_data_dir }} \
+  --query.max-concurrency=20 \
+  --query.timeout=2m
+  --web.enable-admin-api
+  
+[Install]
+WantedBy=multi-user.target

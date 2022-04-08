@@ -1,0 +1,4 @@
+---
+- hosts: gem_soft_host
+  roles:
+    - role: gem

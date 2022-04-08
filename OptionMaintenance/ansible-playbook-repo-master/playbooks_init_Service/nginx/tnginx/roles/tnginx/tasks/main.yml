@@ -1,0 +1,83 @@
+---
+- name: Init Directiory
+  file:
+    path: "{{ tnginx_dir }}"
+    state: directory
+  loop:
+    - "{{ tnginx_src_dir }}"
+    - "{{ tnginx_conf_dir }}"
+  loop_control:
+    loop_var: tnginx_dir
+
+- name: Upload Basic Files
+  copy:
+    src: "{{ tnginx_packages }}"
+    dest: "{{ tnginx_src_dir }}/{{ tnginx_packages }}"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+    remote_src: no
+  loop:
+    - "tengine-{{ tnginx_version }}.tar.gz"
+    - echo-nginx-module-0.61.tar.gz
+    - ngx_http_substitutions_filter_module-master.tar.gz
+    - nginx223_conf.tar.gz
+    - nginx232_conf.tar.gz
+  loop_control:
+    loop_var: tnginx_packages
+
+- name: Unzip Packages for 2.2.3
+  shell: |
+      cd "{{ tnginx_src_dir }}"
+      tar xzf echo-nginx-module-0.61.tar.gz
+      tar xzf ngx_http_substitutions_filter_module-master.tar.gz
+      tar xzf nginx223_conf.tar.gz
+  when: tnginx_version  == "2.2.3"
+
+- name: Unzip Packages for 2.3.2
+  shell: |
+      cd "{{ tnginx_src_dir }}"
+      tar xzf echo-nginx-module-0.61.tar.gz
+      tar xzf ngx_http_substitutions_filter_module-master.tar.gz
+      tar xzf nginx232_conf.tar.gz
+  when: tnginx_version  == "2.3.2"
+    
+    
+- name: Install tnginx 2.2.3
+  shell: |
+    cd "{{ tnginx_src_dir }}"
+    tar xf tengine-"{{ tnginx_version }}.tar.gz"
+    cd tengine-"{{ tnginx_version }}"
+    make clean
+    ./configure --prefix=/usr/local/tnginx-"{{ tnginx_version }}" \
+    --user=nobody \
+    --group=nobody \
+    --with-http_concat_module \
+    --with-http_ssl_module \
+    --with-http_stub_status_module \
+    --with-http_realip_module \
+    --add-module=../echo-nginx-module-0.61 \
+    --add-module=../ngx_http_substitutions_filter_module-master 
+    make -j`grep -c processor /proc/cpuinfo`
+    make install
+    \cp -a ../nginx_conf/* "{{ tnginx_conf_dir }}"
+  when: tnginx_version == "2.2.3"
+
+- name: Install tnginx 2.3.2
+  shell: |
+    cd "{{ tnginx_src_dir }}"
+    tar xf tengine-"{{ tnginx_version }}.tar.gz"
+    cd tengine-"{{ tnginx_version }}"
+    make clean
+    ./configure --prefix=/usr/local/tnginx-"{{ tnginx_version }}" \
+    --user=nobody \
+    --group=nobody \
+    --with-http_ssl_module \
+    --with-http_stub_status_module \
+    --with-http_realip_module \
+    --add-module=../echo-nginx-module-0.61 \
+    --add-module=../ngx_http_substitutions_filter_module-master 
+    make -j`grep -c processor /proc/cpuinfo`
+    make install
+    \cp -a ../nginx_conf/* "{{ tnginx_conf_dir }}"
+  when: tnginx_version  == "2.3.2"

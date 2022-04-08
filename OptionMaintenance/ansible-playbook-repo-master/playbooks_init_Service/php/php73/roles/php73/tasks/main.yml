@@ -1,0 +1,21 @@
+---
+- name: Init Directiory
+  file:
+    path: "{{ php73_dir }}"
+    state: directory
+  loop:
+    - "{{ php73_src_dir }}"
+    - "{{ php73_src_dir }}/ext"
+  loop_control:
+    loop_var: php73_dir
+
+- include_tasks: C7_{{ item }}.yml
+  with_items:
+    - PHP73_Install
+    - PHP73_Init_Conf
+    - PHP73_Install_Ext_GD
+    - PHP73_Install_Ext
+    - PHP73_Install_Composer
+  when:
+    - ansible_distribution_major_version == "7" or ansible_distribution_major_version == "8"
+    

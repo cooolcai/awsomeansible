@@ -1,0 +1,13 @@
+#修改es节点3配置文件
+- name: '修改配置文件node名字'
+  shell: sed -i 's/node-1/node-3/' /usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml
+- name: '修改ip1'
+  shell: sed -i 's/192.168.0.1/10.42.40.13/' /usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml
+- name: '修改ip2'
+  shell: sed -i 's/192.168.0.2/10.42.40.11/' /usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml
+- name: '修改ip3'
+  shell: sed -i 's/192.168.0.3/10.42.40.12/' /usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml
+- name: '修改ip4'
+  shell: sed -i 's/192.168.0.4/10.42.40.13/' /usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml
+- name: "修改配置文件#必要1"
+  shell: sed -i 's/node-4/node-1/' /usr/local/es/elasticsearch-7.6.2/config/elasticsearch.yml
