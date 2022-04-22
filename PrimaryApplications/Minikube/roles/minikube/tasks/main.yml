@@ -38,18 +38,18 @@
     kubectl apply -f /opt/dashboard-250.yaml
     kubectl apply -f /opt/dashboard-250-admin.yaml
 
-- name: get dashboard account token name
-  shell: |
-    kubectl get secret -n kubernetes-dashboard|grep kubernetes-dashboard-token|awk '{print $1}'
-  register: dashboard_token_name
-
-- name: show dashboard account token name
-  debug: var=dashboard_token_value verbosity=0
-
-- name: get dashboard account token value
-  shell: |
-    kubectl describe secret -n kubernetes-dashboard {{ dashboard_token_name }}|grep token:|awk '{print $2}'
-  register: dashboard_token_value value
-
-- name: show dashboard account token
-  debug: var=dashboard_token_value verbosity=0
+#- name: get dashboard account token name
+#  shell: |
+#    kubectl get secret -n kubernetes-dashboard|grep kubernetes-dashboard-token|awk '{print $1}'
+#  register: dashboard_token_name
+#
+#- name: show dashboard account token name
+#  debug: var=dashboard_token_value verbosity=0
+#
+#- name: get dashboard account token value
+#  shell: |
+#    kubectl describe secret -n kubernetes-dashboard {{ dashboard_token_name }}|grep token:|awk '{print $2}'
+#  register: dashboard_token_value value
+#
+#- name: show dashboard account token
+#  debug: var=dashboard_token_value verbosity=0
