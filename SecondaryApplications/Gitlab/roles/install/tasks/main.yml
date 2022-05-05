@@ -1,0 +1,41 @@
+---
+- name: 安装基础软件包，官网建议
+  yum:
+    name:
+    - curl
+    - policycoreutils-python
+    - openssh-server
+    - perl
+    state: latest
+
+#- name: 系统防火墙中打开 HTTP、HTTPS 和 SSH 访问。（可选步骤，如果您打算仅从本地网络访问极狐GitLab，则可以跳过它。）
+#  shell: |
+#    systemctl enable sshd
+#    systemctl start sshd
+#    firewall-cmd --permanent --add-service=http
+#    firewall-cmd --permanent --add-service=https
+#    systemctl reload firewalld
+
+- name: 检查本地是否已经下载gitlab_rpm安装包文件
+  stat:
+    path: /opt/gitlab-jh-14.9.3-jh.0.el7.x86_64.rpm
+  register: gitlab_rpm_file
+
+- block:
+    - name: 下载官网rpm安装包
+      shell: cd /opt && wget https://omnibus.gitlab.cn/el/7/gitlab-jh-14.9.3-jh.0.el7.x86_64.rpm
+  when: gitlab_rpm_file.stat.exists == false
+
+- name: 指定访问地址
+  shell: export EXTERNAL_URL=http://{{ localhost_ip }}
+
+- name: 安装gitlab安装包
+  shell: rpm -Uvh /opt/gitlab-jh-14.9.3-jh.0.el7.x86_64.rpm
+
+- name: 获取初始密码值
+  shell: cat /etc/gitlab/initial_root_password
+  register: gitlab_init_passwd
+
+- name: 打印gitlab_init_passwd的值
+  debug:
+    var: gitlab_init_passwd

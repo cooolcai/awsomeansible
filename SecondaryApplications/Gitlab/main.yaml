@@ -1,0 +1,4 @@
+---
+- hosts: gitlab_host
+  roles:
+    - role: install

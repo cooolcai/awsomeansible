@@ -1,3 +1,10 @@
+#### NFS ####
+nfsProvisonerImage: 'local.harbor/test/nfs-client-provisioner:1.0.0'
+nfsServer: '10.43.10.40'
+nfsConsulDir: '/export/export/consul_data_10.43.10.78'
+PROVISIONER_NAME: 'mynfs'
+NFS_SERVER: ''
+NFS_PATH: '/export/consul_data_40.47'
 #### MySQL ####
 # MySQL57 源文件目录
 mysql57_src_dir: "{{ src_dir }}/mysql57"

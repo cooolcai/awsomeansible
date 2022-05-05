@@ -1,0 +1,5 @@
+[gitlab_host]
+10.20.3.21 localhost_ip="10.20.3.21"
+10.20.3.22 localhost_ip="10.20.3.22"
+
+[gitlab_host:vars]
